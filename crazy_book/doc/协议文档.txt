@@ -1,0 +1,33 @@
+1登录 Get
+http://127.0.0.1:8999/login?wid=luoxiaosong
+
+2 获取openId POST
+http://127.0.0.1:8999/getWxOpenId
+{"app_id":"ddd","secret":"ffff","code":"dddddd"}
+
+3 注册 POST
+http://127.0.0.1:8999/register
+{"user_wid":"luoxiaosong","user_name":"ddddd","user_head_pic":"dddd"}
+
+4 增加我的错题 POST
+http://127.0.0.1:8999/addMyQuestion
+{"user_id":100,"question_title":"dddd","answer_pic":"piss","subject_code":1,"true_title":"sssss","true_pic":"ssddd","false_title":"dddd","false_pic":"ddddd"}
+
+5 获取我的所有的错题 Get
+http://127.0.0.1:8999/getMyAllQuestion?user_id=100&page=0
+
+6 根据错误id获取题目信息 Get
+http://127.0.0.1:8999/getQuestionById?question_id=100
+
+7获取提列表 Get
+http://127.0.0.1:8999/getQuestionList?page=0
+
+8 更新题目信息 POST
+http://127.0.0.1:8999/updateQuestion
+{"question_id":100,"user_id":100,"question_title":"sssss","answer_pic":"dddd","subject_code":1,"true_title":"title","true_pic":"ddddd","false_title":"ftitle","false_pic":"fffff"}
+
+9 删除一个题目 POST
+http://127.0.0.1:8999/deletedMyQuestion
+{"question_id":100}
+
+

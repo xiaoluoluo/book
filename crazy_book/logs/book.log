@@ -1,0 +1,35 @@
+2019/07/25 00:02:20.935 [I] [log.go:629]  http server Running on http://127.0.0.1:8999
+2019/07/25 00:05:04.383 [I] [log.go:629]  http server Running on http://127.0.0.1:8999
+2019/07/25 00:07:31.806 [I] [log.go:629]  http server Running on http://127.0.0.1:8999
+2019/07/25 00:10:10.348 [I] [log.go:629]  http server Running on http://127.0.0.1:8999
+2019/07/25 00:13:13.624 [I] [log.go:629]  http server Running on http://127.0.0.1:8999
+2019/07/25 00:13:55.901 [I] [log.go:629]  http server Running on http://127.0.0.1:8999
+2019/07/25 21:18:27.269 [I] [log.go:629]  http server Running on http://127.0.0.1:8999
+2019/07/25 21:26:16.388 [E] [log.go:604]  AddMyQuestion err: Error 1136: Column count doesn't match value count at row 1
+2019/07/25 21:26:27.552 [E] [log.go:604]  AddMyQuestion err: Error 1136: Column count doesn't match value count at row 1
+2019/07/25 21:27:34.792 [I] [log.go:629]  http server Running on http://127.0.0.1:8999
+2019/07/25 21:27:47.067 [E] [log.go:604]  AddMyQuestion err: sql: expected 6 arguments, got 3
+2019/07/25 21:28:08.679 [I] [log.go:629]  http server Running on http://127.0.0.1:8999
+2019/07/25 21:29:15.701 [I] [log.go:629]  http server Running on http://127.0.0.1:8999
+2019/07/25 21:34:19.565 [I] [log.go:629]  http server Running on http://127.0.0.1:8999
+2019/07/25 21:36:21.183 [E] [log.go:604]  UpdateQuestion err: Error 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'VALUES ( ?, ?, ?, ?, ?, ? ) WHERE question_id=?' at line 1
+2019/07/25 21:36:43.133 [E] [log.go:604]  UpdateQuestion err: Error 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'VALUES ( ?, ?, ?, ?, ?, ? ) WHERE question_id=?' at line 1
+2019/07/25 21:37:11.787 [E] [log.go:604]  UpdateQuestion err: Error 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'VALUES ( ?, ?, ?, ?, ?, ? ) WHERE question_id=?' at line 1
+2019/07/25 21:38:44.320 [E] [log.go:604]  UpdateQuestion err: Error 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'VALUES ( ?, ?, ?, ?, ?, ? ) WHERE question_id=?' at line 1
+2019/07/25 21:39:47.361 [I] [log.go:629]  http server Running on http://127.0.0.1:8999
+2019/07/25 21:40:05.839 [E] [log.go:604]  UpdateQuestion err: Error 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '?, ?, ?, ?, ?, ? WHERE question_id=?' at line 1
+2019/07/25 21:42:23.149 [I] [log.go:629]  http server Running on http://127.0.0.1:8999
+2019/07/25 21:54:19.216 [I] [log.go:629]  http server Running on http://127.0.0.1:8999
+2019/07/25 22:01:02.660 [I] [log.go:629]  http server Running on http://127.0.0.1:8999
+2019/07/25 22:02:35.164 [I] [log.go:629]  http server Running on http://127.0.0.1:8999
+2019/07/25 22:05:35.357 [I] [log.go:629]  http server Running on http://127.0.0.1:8999
+2019/07/25 22:05:46.069 [E] [log.go:604]  Register.Login: luoxiaosong ddddd dddd
+2019/07/25 22:05:55.576 [E] [log.go:604]  Register.Login: luoxiaosong ddddd dddd
+2019/07/25 23:14:15.052 [I] [log.go:629]  http server Running on http://127.0.0.1:8999
+2019/07/27 14:50:33.165 [I] [log.go:629]  http server Running on http://0.0.0.0:8999
+2019/07/27 14:51:40.994 [I] [log.go:629]  http server Running on http://0.0.0.0:8999
+2019/07/27 15:03:55.845 [I] [log.go:629]  http server Running on http://0.0.0.0:8999
+2019/07/27 15:05:11.523 [I] [log.go:629]  http server Running on http://0.0.0.0:8999
+2019/07/27 15:10:28.813 [I] [log.go:629]  http server Running on http://0.0.0.0:8999
+2019/07/27 15:14:06.767 [I] [log.go:629]  http server Running on http://0.0.0.0:8999
+2019/07/27 15:16:33.426 [I] [log.go:629]  http server Running on http://0.0.0.0:8999
