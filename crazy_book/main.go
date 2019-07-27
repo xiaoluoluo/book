@@ -28,6 +28,10 @@ func main() {
 	logs.SetLogger(logs.AdapterFile, `{"filename":"./logs/book.log"}`)
 
 	// 数据库
+	// online = Sj147258#^(
+	// xinzhi = 1234567890
+	// luo = 123456
+
 	orm.RegisterDriver("mysql", orm.DRMySQL)
 	orm.RegisterDataBase("default", "mysql", "root:1234567890@/book?charset=utf8mb4")
 	orm.SetMaxIdleConns("default", 30)

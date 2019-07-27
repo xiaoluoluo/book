@@ -209,8 +209,8 @@ func (this *MainController) GetQuestionList() {
 	}
 	userList := new(models.User).GetUserList(userIds)
 	QuestionRespList := make([]QuestionResp, 0, len(userIds))
-	for _, u := range userList {
-		for _, q := range questions {
+	for _, q := range questions {
+		for _, u := range userList {
 			if u.UserId != q.UserId {
 				continue
 			}
