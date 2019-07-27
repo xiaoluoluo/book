@@ -28,7 +28,7 @@ func (q *Question) AddMyQuestion(userId uint64, questionTitle string, answerPic 
 		Values("?", "?", "?", "?", "?", "?", "?", "?")
 	sql := qb.String()
 	o := orm.NewOrm()
-	rawSeter, err := o.Raw(sql, userId, questionTitle, answerPic, subjectCode, truePic, falsePic).Exec()
+	rawSeter, err := o.Raw(sql, userId, questionTitle, answerPic, subjectCode, trueTitle,truePic,falseTitle, falsePic).Exec()
 	return rawSeter.LastInsertId()
 }
 
@@ -39,7 +39,7 @@ func (q *Question) UpdateQuestion(questionId, userId uint64, questionTitle, answ
 		Set("user_id=?", "question_title = ?", "answer_pic = ?", "subject_code = ?", "true_title = ?", "true_pic = ?", "false_title = ?", "false_pic = ?").Where("question_id = ?")
 	sql := qb.String()
 	o := orm.NewOrm()
-	_, error := o.Raw(sql, userId, questionTitle, answerPic, subjectCode, truePic, falsePic, questionId).Exec()
+	_, error := o.Raw(sql, userId, questionTitle, answerPic, subjectCode,trueTitle, truePic,falseTitle, falsePic, questionId).Exec()
 	return error
 }
 
