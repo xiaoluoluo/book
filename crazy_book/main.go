@@ -2,6 +2,7 @@ package main
 
 import (
 	"crazy_book/src/controllers"
+	"fmt"
 	_ "github.com/Go-SQL-Driver/MYSQL"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
@@ -28,12 +29,12 @@ func main() {
 	logs.SetLogger(logs.AdapterFile, `{"filename":"./logs/book.log"}`)
 
 	// 数据库
-	// online = Sj147258#^(
-	// xinzhi = 1234567890
-	// luo = 123456
-
+	password := "Sj147258#^("
+	//password := "1234567890"
+	//password := "123456"
+	dataSource := fmt.Sprintf("%s:%s@/%s?charset=utf8mb4", "root", password, "book")
 	orm.RegisterDriver("mysql", orm.DRMySQL)
-	orm.RegisterDataBase("default", "mysql", "root:1234567890@/book?charset=utf8mb4")
+	orm.RegisterDataBase("default", "mysql", dataSource)
 	orm.SetMaxIdleConns("default", 30)
 	orm.SetMaxOpenConns("default", 30)
 	orm.DefaultTimeLoc = time.Local
