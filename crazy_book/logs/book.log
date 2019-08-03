@@ -117,3 +117,5 @@
 2019/08/04 00:26:47.738 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/runtime/asm_amd64.s:1337
 2019/08/04 00:30:01.572 [I] [log.go:629]  http server Running on http://0.0.0.0:8999
 2019/08/04 00:31:34.455 [I] [log.go:629]  http server Running on http://0.0.0.0:8999
+2019/08/04 01:02:24.979 [E] [log.go:604]  Register.Login: ob37I5WU-gO_qpvMoxYRyNoTtqDA 小志 https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLbbXViaLLFrKodfRb9TJxOVK7LOTOgrLASkxNOo0yEclKibCs5ehtnIiahESrfos8cX4uNibPnZAKuwA/132
+2019/08/04 01:03:14.121 [E] [log.go:604]  Register.Login: ob37I5WU-gO_qpvMoxYRyNoTtqDA 小志 https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLbbXViaLLFrKodfRb9TJxOVK7LOTOgrLASkxNOo0yEclKibCs5ehtnIiahESrfos8cX4uNibPnZAKuwA/132
