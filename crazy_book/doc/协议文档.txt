@@ -14,13 +14,13 @@ http://127.0.0.1:8999/addMyQuestion
 {"user_id":100,"question_title":"dddd","answer_pic":"piss","subject_code":1,"true_title":"sssss","true_pic":"ssddd","false_title":"dddd","false_pic":"ddddd"}
 
 5 获取我的所有的错题 Get
-http://127.0.0.1:8999/getMyAllQuestion?user_id=100&page=0
+http://127.0.0.1:8999/getMyAllQuestion?user_id=100&page=0&subject_code=1
 
 6 根据错误id获取题目信息 Get
 http://127.0.0.1:8999/getQuestionById?question_id=100
 
-7获取提列表 Get
-http://127.0.0.1:8999/getQuestionList?page=0
+7广场中获取错题列表 Get
+http://127.0.0.1:8999/getQuestionList?user_id=100&page=0&subject_code=1
 
 8 更新题目信息 POST
 http://127.0.0.1:8999/updateQuestion
@@ -30,4 +30,17 @@ http://127.0.0.1:8999/updateQuestion
 http://127.0.0.1:8999/deletedMyQuestion
 {"question_id":100}
 
+10 修改学生的年级 POST
+http://127.0.0.1:8999/updateGrade
+{"user_id":100,"grade":5}
 
+11 增加评论POST
+http://127.0.0.1:8999/addQuestionComment
+{"user_id":100,"question_id":5,"comment_intro":"ssssssss"}
+
+12 获取评论 Get
+http://127.0.0.1:8999/getQuestionComment&question_id=111
+
+
+//20190803
+修改了 5 7 10 11 12

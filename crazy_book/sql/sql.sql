@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS `question`;
 create table question(
 	question_id int(20) NOT NULL AUTO_INCREMENT COMMENT '题目id',
     user_id int(20) NOT NULL DEFAULT 0 COMMENT '用户id',
+    user_grade int(20) NOT NULL DEFAULT 0 COMMENT '用户所在年级',
 	question_title varchar(255) NOT NULL DEFAULT '' COMMENT '题目标题',
 	answer_pic varchar(255) NOT NULL DEFAULT '' COMMENT '题目图片',
     subject_code int(10) NOT NULL DEFAULT 0 COMMENT '科目代码 1数学2语文3英语',
@@ -22,6 +23,7 @@ create table user(
     user_wid varchar(100) NOT NULL DEFAULT '' COMMENT '用户微信id',
     user_name varchar(100) NOT NULL DEFAULT '' COMMENT '用户名字',
     user_head_pic varchar(255) NOT NULL DEFAULT '' COMMENT '用户头像',
+    user_grade int(20) NOT NULL DEFAULT 0 COMMENT '用户所在年级',
     insert_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '插入时间',
     ts timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY(user_id),
@@ -29,6 +31,19 @@ create table user(
 ) ENGINE=InnoDB  AUTO_INCREMENT=100  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='用户表';
 
 
+
+
+DROP TABLE IF EXISTS `comment`;
+create table comment(
+    comment_id int(20) NOT NULL AUTO_INCREMENT COMMENT '评论id',
+    user_id int(20) NOT NULL DEFAULT 0 COMMENT '评论用户id',
+    question_id int(20) NOT NULL DEFAULT 0 COMMENT '题目id',
+    comment_intro varchar(1024) NOT NULL DEFAULT '' COMMENT '评论内容',
+    insert_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '插入时间',
+    ts timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY(comment_id),
+    INDEX (user_id)
+) ENGINE=InnoDB  AUTO_INCREMENT=100  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='评论表';
 
 
 

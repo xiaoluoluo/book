@@ -15,12 +15,15 @@ func main() {
 	beego.Router("/login", &controllers.MainController{}, "get:Login")
 	beego.Router("/getWxOpenId", &controllers.MainController{}, "post:GetWxOpenId")
 	beego.Router("/register", &controllers.MainController{}, "post:Register")
+	beego.Router("/updateGrade", &controllers.MainController{}, "post:UpdateGrade")
 	beego.Router("/addMyQuestion", &controllers.MainController{}, "post:AddMyQuestion")
 	beego.Router("/getMyAllQuestion", &controllers.MainController{}, "get:GetMyAllQuestion")
 	beego.Router("/getQuestionById", &controllers.MainController{}, "get:GetQuestionById")
 	beego.Router("/getQuestionList", &controllers.MainController{}, "get:GetQuestionList")
 	beego.Router("/updateQuestion", &controllers.MainController{}, "post:UpdateQuestion")
 	beego.Router("/deletedMyQuestion", &controllers.MainController{}, "post:DeletedMyQuestion")
+	beego.Router("/addQuestionComment", &controllers.MainController{}, "post:AddQuestionComment")
+	beego.Router("/getQuestionComment", &controllers.MainController{}, "get:GetQuestionComment")
 
 	//config
 	beego.BConfig.CopyRequestBody = true

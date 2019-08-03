@@ -91,6 +91,27 @@ func (this *MainController) Login() {
 	this.Ctx.WriteString(BuildSuccessResponse(string(jsonUsers)))
 }
 
+// 修改用户的年级
+func (this *MainController) UpdateGrade() {
+	req := struct {
+		UserId    uint64 `json:"user_id"`
+		UserGrade uint32 `json:"user_grade"`
+	}{}
+	err := json.Unmarshal(this.Ctx.Input.RequestBody, &req)
+	if err != nil {
+		logs.Error("json.Unmarshal is err:", err.Error())
+		this.Ctx.WriteString(BuildErrResponse("请求参数错误"))
+		return
+	}
+	err = new(models.User).UpdateUserGrade(req.UserId, req.UserGrade)
+	if err != nil {
+		logs.Error("UpdateUserGrade err:", err.Error())
+		this.Ctx.WriteString(BuildErrResponse("数据库出现错误"))
+		return
+	}
+	this.Ctx.WriteString(BuildSuccessResponse("ok"))
+}
+
 // 增加我的错题
 func (this *MainController) AddMyQuestion() {
 	req := struct {
@@ -109,7 +130,14 @@ func (this *MainController) AddMyQuestion() {
 		this.Ctx.WriteString(BuildErrResponse("请求参数错误"))
 		return
 	}
-	insertId, err := new(models.Question).AddMyQuestion(req.UserId, req.QuestionTitle, req.AnswerPic, req.SubjectCode, req.TrueTitle, req.TruePic, req.FalseTitle, req.FalsePic)
+	users := new(models.User).GetUserById(req.UserId)
+	if len(users) <= 0 {
+		logs.Error("GetUserById userId is  err:", req.UserId)
+		this.Ctx.WriteString(BuildErrResponse("用户id有误"))
+		return
+	}
+	userGrade := users[0].UserGrade
+	insertId, err := new(models.Question).AddMyQuestion(req.UserId, userGrade, req.QuestionTitle, req.AnswerPic, req.SubjectCode, req.TrueTitle, req.TruePic, req.FalseTitle, req.FalsePic)
 	if err != nil {
 		logs.Error("AddMyQuestion err:", err.Error())
 		this.Ctx.WriteString(BuildErrResponse("数据库出现错误"))
@@ -165,8 +193,25 @@ func (this *MainController) GetMyAllQuestion() {
 		this.Ctx.WriteString(BuildErrResponse("请求参数错误"))
 		return
 	}
-
-	questions := new(models.Question).GetMyAllQuestion(userId, 10, page)
+	subjectCode, err := this.GetUint32("subject_code", 0)
+	if err != nil {
+		logs.Error("GetMyAllQuestion err:", err.Error())
+		this.Ctx.WriteString(BuildErrResponse("请求参数错误"))
+		return
+	}
+	users := new(models.User).GetUserById(userId)
+	if len(users) <= 0 {
+		logs.Error("GetUserById user is empty userId:", userId)
+		this.Ctx.WriteString(BuildErrResponse("用户不存在，请联系管理员"))
+		return
+	}
+	grade := users[0].UserGrade
+	var questions []models.Question
+	if subjectCode <= 0 {
+		questions = new(models.Question).GetMyAllQuestion(userId, grade, 10, page)
+	} else {
+		questions = new(models.Question).GetMyQuestionBySubject(userId, grade, subjectCode, 10, page)
+	}
 	jsonQuestions, err := json.Marshal(questions)
 	if err != nil {
 		logs.Error("GetMyAllQuestion.Marshal err:", err.Error())
@@ -202,7 +247,32 @@ func (this *MainController) GetQuestionList() {
 		this.Ctx.WriteString(BuildErrResponse("请求参数错误"))
 		return
 	}
-	questions := new(models.Question).GetQuestionList(10, page)
+	userId, err := this.GetUint64("user_id")
+	if err != nil {
+		logs.Error("GetQuestionList err:", err.Error())
+		this.Ctx.WriteString(BuildErrResponse("请求参数错误"))
+		return
+	}
+	subjectCode, err := this.GetUint32("subject_code", 0)
+	if err != nil {
+		logs.Error("GetQuestionList err:", err.Error())
+		this.Ctx.WriteString(BuildErrResponse("请求参数错误"))
+		return
+	}
+	var questions []models.Question
+	if subjectCode <= 0 {
+		questions = new(models.Question).GetQuestionList(10, page)
+	} else {
+		users := new(models.User).GetUserById(userId)
+		if len(users) <= 0 {
+			logs.Error("GetUserById user is empty userId:", userId)
+			this.Ctx.WriteString(BuildErrResponse("用户不存在，请联系管理员"))
+			return
+		}
+		grade := users[0].UserGrade
+		questions = new(models.Question).GetQuestionByGradeAndSubject(grade, subjectCode, 10, page)
+	}
+
 	userIds := make([]uint64, 0, len(questions))
 	for _, q := range questions {
 		userIds = append(userIds, q.UserId)
@@ -250,4 +320,71 @@ func (this *MainController) DeletedMyQuestion() {
 		return
 	}
 	this.Ctx.WriteString(BuildSuccessResponse("ok"))
+}
+
+// 增加问题的评论
+func (this *MainController) AddQuestionComment() {
+	req := struct {
+		UserId       uint64 `json:"user_id"`
+		QuestionId   uint64 `json:"question_id"`
+		CommentIntro string `json:"comment_intro"`
+	}{}
+	err := json.Unmarshal(this.Ctx.Input.RequestBody, &req)
+	if err != nil {
+		logs.Error("json.Unmarshal is err:", err.Error())
+		this.Ctx.WriteString(BuildErrResponse("请求参数错误"))
+		return
+	}
+	// 用户id  问题id  评论
+	insertId, err := new(models.Comment).AddComment(req.UserId, req.QuestionId, req.CommentIntro)
+	if err != nil {
+		logs.Error("AddComment.Marshal err:", err.Error())
+		this.Ctx.WriteString(BuildErrResponse("数据库报错"))
+		return
+	}
+	respon := struct {
+		CommentId uint64 `json:"comment_id"`
+	}{}
+	respon.CommentId = uint64(insertId)
+	jsonRespon, _ := json.Marshal(respon)
+	this.Ctx.WriteString(BuildSuccessResponse(string(jsonRespon)))
+}
+
+// 获取问题的评论
+func (this *MainController) GetQuestionComment() {
+	// 问题id
+	questionId, err := this.GetUint64("question_id")
+	if err != nil {
+		logs.Error("GetQuestionComment err:", err.Error())
+		this.Ctx.WriteString(BuildErrResponse("请求参数错误"))
+		return
+	}
+	commentList := new(models.Comment).GetComment(questionId)
+	userIdList := make([]uint64, 0, len(commentList))
+
+	for _, c := range commentList {
+		userIdList = append(userIdList, c.UserId)
+	}
+	commentUserList := new(models.User).GetUserList(userIdList)
+	CommentRespList := make([]CommentResp, 0, len(userIdList))
+	for _, c := range commentList {
+		for _, u := range commentUserList {
+			if u.UserId != c.UserId {
+				continue
+			}
+			resp := CommentResp{
+				Comment: c,
+				User:    u,
+			}
+			CommentRespList = append(CommentRespList, resp)
+			break
+		}
+	}
+	jsonCommentRespList, err := json.Marshal(CommentRespList)
+	if err != nil {
+		logs.Error("CommentRespList.Marshal err:", err.Error())
+		this.Ctx.WriteString(BuildErrResponse("数据库报错"))
+		return
+	}
+	this.Ctx.WriteString(BuildSuccessResponse(string(jsonCommentRespList)))
 }
