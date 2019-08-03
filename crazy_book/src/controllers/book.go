@@ -212,6 +212,9 @@ func (this *MainController) GetMyAllQuestion() {
 	} else {
 		questions = new(models.Question).GetMyQuestionBySubject(userId, grade, subjectCode, 10, page)
 	}
+	if questions == nil {
+		questions = make([]models.Question,0,1)
+	}
 	jsonQuestions, err := json.Marshal(questions)
 	if err != nil {
 		logs.Error("GetMyAllQuestion.Marshal err:", err.Error())

@@ -23,7 +23,10 @@ func (c *Comment) AddComment(userId uint64, questionId uint64, commentIntro stri
 		Values("?", "?", "?")
 	sql := qb.String()
 	o := orm.NewOrm()
-	rawSeter, err := o.Raw(sql, userId, commentIntro).Exec()
+	rawSeter, err := o.Raw(sql, userId, questionId,commentIntro).Exec()
+	if err != nil {
+		return
+	}
 	return rawSeter.LastInsertId()
 }
 

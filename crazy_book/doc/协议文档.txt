@@ -32,7 +32,7 @@ http://127.0.0.1:8999/deletedMyQuestion
 
 10 修改学生的年级 POST
 http://127.0.0.1:8999/updateGrade
-{"user_id":100,"grade":5}
+{"user_id":100,"user_grade":5}
 
 11 增加评论POST
 http://127.0.0.1:8999/addQuestionComment
