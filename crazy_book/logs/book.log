@@ -2,3 +2,118 @@
 2019/08/04 00:08:52.851 [E] [log.go:604]  json.Unmarshal is err: json: cannot unmarshal string into Go struct field .question_id of type uint64
 2019/08/04 00:11:33.389 [I] [log.go:629]  http server Running on http://0.0.0.0:8999
 2019/08/04 00:13:48.623 [I] [log.go:629]  http server Running on http://0.0.0.0:8999
+2019/08/04 00:18:39.015 [C] [log.go:599]  the request url is  /getQuestionComment
+2019/08/04 00:18:39.015 [C] [log.go:599]  Handler crashed with error reflect: reflect.Value.SetUint using value obtained using unexported field
+2019/08/04 00:18:39.015 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/runtime/panic.go:522
+2019/08/04 00:18:39.015 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/reflect/value.go:231
+2019/08/04 00:18:39.015 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/reflect/value.go:1621
+2019/08/04 00:18:39.015 [C] [log.go:599]  /Users/yi/Documents/mygo/pkg/mod/github.com/astaxie/beego@v1.12.0/orm/orm_raw.go:128
+2019/08/04 00:18:39.015 [C] [log.go:599]  /Users/yi/Documents/mygo/pkg/mod/github.com/astaxie/beego@v1.12.0/orm/orm_raw.go:536
+2019/08/04 00:18:39.015 [C] [log.go:599]  /Users/yi/Documents/mygo/pkg/mod/github.com/astaxie/beego@v1.12.0/orm/orm_raw.go:542
+2019/08/04 00:18:39.015 [C] [log.go:599]  /Users/yi/Documents/mygo/src/book/crazy_book/src/models/comment.go:42
+2019/08/04 00:18:39.015 [C] [log.go:599]  /Users/yi/Documents/mygo/src/book/crazy_book/src/controllers/book.go:365
+2019/08/04 00:18:39.015 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/reflect/value.go:447
+2019/08/04 00:18:39.015 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/reflect/value.go:308
+2019/08/04 00:18:39.015 [C] [log.go:599]  /Users/yi/Documents/mygo/pkg/mod/github.com/astaxie/beego@v1.12.0/router.go:853
+2019/08/04 00:18:39.015 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/net/http/server.go:2774
+2019/08/04 00:18:39.015 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/net/http/server.go:1878
+2019/08/04 00:18:39.015 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/runtime/asm_amd64.s:1337
+2019/08/04 00:19:05.175 [C] [log.go:599]  the request url is  /getQuestionComment
+2019/08/04 00:19:05.175 [C] [log.go:599]  Handler crashed with error reflect: reflect.Value.SetUint using value obtained using unexported field
+2019/08/04 00:19:05.175 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/runtime/panic.go:522
+2019/08/04 00:19:05.175 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/reflect/value.go:231
+2019/08/04 00:19:05.175 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/reflect/value.go:1621
+2019/08/04 00:19:05.175 [C] [log.go:599]  /Users/yi/Documents/mygo/pkg/mod/github.com/astaxie/beego@v1.12.0/orm/orm_raw.go:128
+2019/08/04 00:19:05.175 [C] [log.go:599]  /Users/yi/Documents/mygo/pkg/mod/github.com/astaxie/beego@v1.12.0/orm/orm_raw.go:536
+2019/08/04 00:19:05.175 [C] [log.go:599]  /Users/yi/Documents/mygo/pkg/mod/github.com/astaxie/beego@v1.12.0/orm/orm_raw.go:542
+2019/08/04 00:19:05.175 [C] [log.go:599]  /Users/yi/Documents/mygo/src/book/crazy_book/src/models/comment.go:42
+2019/08/04 00:19:05.175 [C] [log.go:599]  /Users/yi/Documents/mygo/src/book/crazy_book/src/controllers/book.go:365
+2019/08/04 00:19:05.175 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/reflect/value.go:447
+2019/08/04 00:19:05.175 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/reflect/value.go:308
+2019/08/04 00:19:05.175 [C] [log.go:599]  /Users/yi/Documents/mygo/pkg/mod/github.com/astaxie/beego@v1.12.0/router.go:853
+2019/08/04 00:19:05.175 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/net/http/server.go:2774
+2019/08/04 00:19:05.175 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/net/http/server.go:1878
+2019/08/04 00:19:05.175 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/runtime/asm_amd64.s:1337
+2019/08/04 00:19:49.089 [C] [log.go:599]  the request url is  /getQuestionComment
+2019/08/04 00:19:49.089 [C] [log.go:599]  Handler crashed with error reflect: reflect.Value.SetUint using value obtained using unexported field
+2019/08/04 00:19:49.089 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/runtime/panic.go:522
+2019/08/04 00:19:49.089 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/reflect/value.go:231
+2019/08/04 00:19:49.089 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/reflect/value.go:1621
+2019/08/04 00:19:49.089 [C] [log.go:599]  /Users/yi/Documents/mygo/pkg/mod/github.com/astaxie/beego@v1.12.0/orm/orm_raw.go:128
+2019/08/04 00:19:49.089 [C] [log.go:599]  /Users/yi/Documents/mygo/pkg/mod/github.com/astaxie/beego@v1.12.0/orm/orm_raw.go:536
+2019/08/04 00:19:49.089 [C] [log.go:599]  /Users/yi/Documents/mygo/pkg/mod/github.com/astaxie/beego@v1.12.0/orm/orm_raw.go:542
+2019/08/04 00:19:49.089 [C] [log.go:599]  /Users/yi/Documents/mygo/src/book/crazy_book/src/models/comment.go:42
+2019/08/04 00:19:49.089 [C] [log.go:599]  /Users/yi/Documents/mygo/src/book/crazy_book/src/controllers/book.go:365
+2019/08/04 00:19:49.089 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/reflect/value.go:447
+2019/08/04 00:19:49.089 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/reflect/value.go:308
+2019/08/04 00:19:49.089 [C] [log.go:599]  /Users/yi/Documents/mygo/pkg/mod/github.com/astaxie/beego@v1.12.0/router.go:853
+2019/08/04 00:19:49.089 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/net/http/server.go:2774
+2019/08/04 00:19:49.089 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/net/http/server.go:1878
+2019/08/04 00:19:49.089 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/runtime/asm_amd64.s:1337
+2019/08/04 00:21:16.112 [C] [log.go:599]  the request url is  /getQuestionComment
+2019/08/04 00:21:16.112 [C] [log.go:599]  Handler crashed with error reflect: reflect.Value.SetUint using value obtained using unexported field
+2019/08/04 00:21:16.112 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/runtime/panic.go:522
+2019/08/04 00:21:16.112 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/reflect/value.go:231
+2019/08/04 00:21:16.112 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/reflect/value.go:1621
+2019/08/04 00:21:16.112 [C] [log.go:599]  /Users/yi/Documents/mygo/pkg/mod/github.com/astaxie/beego@v1.12.0/orm/orm_raw.go:128
+2019/08/04 00:21:16.112 [C] [log.go:599]  /Users/yi/Documents/mygo/pkg/mod/github.com/astaxie/beego@v1.12.0/orm/orm_raw.go:536
+2019/08/04 00:21:16.112 [C] [log.go:599]  /Users/yi/Documents/mygo/pkg/mod/github.com/astaxie/beego@v1.12.0/orm/orm_raw.go:542
+2019/08/04 00:21:16.112 [C] [log.go:599]  /Users/yi/Documents/mygo/src/book/crazy_book/src/models/comment.go:42
+2019/08/04 00:21:16.112 [C] [log.go:599]  /Users/yi/Documents/mygo/src/book/crazy_book/src/controllers/book.go:365
+2019/08/04 00:21:16.112 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/reflect/value.go:447
+2019/08/04 00:21:16.112 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/reflect/value.go:308
+2019/08/04 00:21:16.112 [C] [log.go:599]  /Users/yi/Documents/mygo/pkg/mod/github.com/astaxie/beego@v1.12.0/router.go:853
+2019/08/04 00:21:16.112 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/net/http/server.go:2774
+2019/08/04 00:21:16.112 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/net/http/server.go:1878
+2019/08/04 00:21:16.112 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/runtime/asm_amd64.s:1337
+2019/08/04 00:23:41.953 [C] [log.go:599]  the request url is  /getQuestionComment
+2019/08/04 00:23:41.953 [C] [log.go:599]  Handler crashed with error reflect: reflect.Value.SetUint using value obtained using unexported field
+2019/08/04 00:23:41.953 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/runtime/panic.go:522
+2019/08/04 00:23:41.953 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/reflect/value.go:231
+2019/08/04 00:23:41.953 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/reflect/value.go:1621
+2019/08/04 00:23:41.953 [C] [log.go:599]  /Users/yi/Documents/mygo/pkg/mod/github.com/astaxie/beego@v1.12.0/orm/orm_raw.go:128
+2019/08/04 00:23:41.953 [C] [log.go:599]  /Users/yi/Documents/mygo/pkg/mod/github.com/astaxie/beego@v1.12.0/orm/orm_raw.go:536
+2019/08/04 00:23:41.953 [C] [log.go:599]  /Users/yi/Documents/mygo/pkg/mod/github.com/astaxie/beego@v1.12.0/orm/orm_raw.go:542
+2019/08/04 00:23:41.953 [C] [log.go:599]  /Users/yi/Documents/mygo/src/book/crazy_book/src/models/comment.go:42
+2019/08/04 00:23:41.953 [C] [log.go:599]  /Users/yi/Documents/mygo/src/book/crazy_book/src/controllers/book.go:365
+2019/08/04 00:23:41.953 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/reflect/value.go:447
+2019/08/04 00:23:41.953 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/reflect/value.go:308
+2019/08/04 00:23:41.953 [C] [log.go:599]  /Users/yi/Documents/mygo/pkg/mod/github.com/astaxie/beego@v1.12.0/router.go:853
+2019/08/04 00:23:41.953 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/net/http/server.go:2774
+2019/08/04 00:23:41.953 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/net/http/server.go:1878
+2019/08/04 00:23:41.953 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/runtime/asm_amd64.s:1337
+2019/08/04 00:24:52.951 [C] [log.go:599]  the request url is  /getQuestionComment
+2019/08/04 00:24:52.951 [C] [log.go:599]  Handler crashed with error reflect: reflect.Value.SetUint using value obtained using unexported field
+2019/08/04 00:24:52.951 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/runtime/panic.go:522
+2019/08/04 00:24:52.951 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/reflect/value.go:231
+2019/08/04 00:24:52.951 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/reflect/value.go:1621
+2019/08/04 00:24:52.951 [C] [log.go:599]  /Users/yi/Documents/mygo/pkg/mod/github.com/astaxie/beego@v1.12.0/orm/orm_raw.go:128
+2019/08/04 00:24:52.951 [C] [log.go:599]  /Users/yi/Documents/mygo/pkg/mod/github.com/astaxie/beego@v1.12.0/orm/orm_raw.go:536
+2019/08/04 00:24:52.951 [C] [log.go:599]  /Users/yi/Documents/mygo/pkg/mod/github.com/astaxie/beego@v1.12.0/orm/orm_raw.go:542
+2019/08/04 00:24:52.951 [C] [log.go:599]  /Users/yi/Documents/mygo/src/book/crazy_book/src/models/comment.go:42
+2019/08/04 00:24:52.951 [C] [log.go:599]  /Users/yi/Documents/mygo/src/book/crazy_book/src/controllers/book.go:365
+2019/08/04 00:24:52.951 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/reflect/value.go:447
+2019/08/04 00:24:52.951 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/reflect/value.go:308
+2019/08/04 00:24:52.951 [C] [log.go:599]  /Users/yi/Documents/mygo/pkg/mod/github.com/astaxie/beego@v1.12.0/router.go:853
+2019/08/04 00:24:52.951 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/net/http/server.go:2774
+2019/08/04 00:24:52.951 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/net/http/server.go:1878
+2019/08/04 00:24:52.951 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/runtime/asm_amd64.s:1337
+2019/08/04 00:26:25.115 [I] [log.go:629]  http server Running on http://0.0.0.0:8999
+2019/08/04 00:26:47.737 [C] [log.go:599]  the request url is  /getQuestionComment
+2019/08/04 00:26:47.737 [C] [log.go:599]  Handler crashed with error reflect: reflect.Value.SetUint using value obtained using unexported field
+2019/08/04 00:26:47.737 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/runtime/panic.go:522
+2019/08/04 00:26:47.737 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/reflect/value.go:231
+2019/08/04 00:26:47.737 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/reflect/value.go:1621
+2019/08/04 00:26:47.737 [C] [log.go:599]  /Users/yi/Documents/mygo/pkg/mod/github.com/astaxie/beego@v1.12.0/orm/orm_raw.go:128
+2019/08/04 00:26:47.737 [C] [log.go:599]  /Users/yi/Documents/mygo/pkg/mod/github.com/astaxie/beego@v1.12.0/orm/orm_raw.go:536
+2019/08/04 00:26:47.738 [C] [log.go:599]  /Users/yi/Documents/mygo/pkg/mod/github.com/astaxie/beego@v1.12.0/orm/orm_raw.go:542
+2019/08/04 00:26:47.738 [C] [log.go:599]  /Users/yi/Documents/mygo/src/book/crazy_book/src/models/comment.go:46
+2019/08/04 00:26:47.738 [C] [log.go:599]  /Users/yi/Documents/mygo/src/book/crazy_book/src/controllers/book.go:365
+2019/08/04 00:26:47.738 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/reflect/value.go:447
+2019/08/04 00:26:47.738 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/reflect/value.go:308
+2019/08/04 00:26:47.738 [C] [log.go:599]  /Users/yi/Documents/mygo/pkg/mod/github.com/astaxie/beego@v1.12.0/router.go:853
+2019/08/04 00:26:47.738 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/net/http/server.go:2774
+2019/08/04 00:26:47.738 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/net/http/server.go:1878
+2019/08/04 00:26:47.738 [C] [log.go:599]  /usr/local/Cellar/go/1.12.5/libexec/src/runtime/asm_amd64.s:1337
+2019/08/04 00:30:01.572 [I] [log.go:629]  http server Running on http://0.0.0.0:8999
+2019/08/04 00:31:34.455 [I] [log.go:629]  http server Running on http://0.0.0.0:8999

@@ -6,10 +6,10 @@ import (
 )
 
 type Comment struct {
-	commentId    uint64    `json:"comment_id"`
+	CommentId    uint64    `json:"comment_id"`
 	UserId       uint64    `json:"user_id"`
 	QuestionId   uint64    `json:"question_id"`
-	commentIntro string    `json:"comment_intro"`
+	CommentIntro string    `json:"comment_intro"`
 	InsertTime   time.Time `json:"insert_time"`
 	Ts           time.Time `json:"ts"`
 }
@@ -38,8 +38,7 @@ func (c *Comment) GetComment(questionId uint64) []Comment {
 		From(commentTable).
 		Where("question_id = ?")
 	sql := qb.String()
-	o := orm.NewOrm()
-	o.Raw(sql, questionId).QueryRows(&comment)
+	orm.NewOrm().Raw(sql, questionId).QueryRows(&comment)
 	return comment
 
 }
