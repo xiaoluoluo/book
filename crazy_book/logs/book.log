@@ -119,3 +119,16 @@
 2019/08/04 00:31:34.455 [I] [log.go:629]  http server Running on http://0.0.0.0:8999
 2019/08/04 01:02:24.979 [E] [log.go:604]  Register.Login: ob37I5WU-gO_qpvMoxYRyNoTtqDA 小志 https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLbbXViaLLFrKodfRb9TJxOVK7LOTOgrLASkxNOo0yEclKibCs5ehtnIiahESrfos8cX4uNibPnZAKuwA/132
 2019/08/04 01:03:14.121 [E] [log.go:604]  Register.Login: ob37I5WU-gO_qpvMoxYRyNoTtqDA 小志 https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTLbbXViaLLFrKodfRb9TJxOVK7LOTOgrLASkxNOo0yEclKibCs5ehtnIiahESrfos8cX4uNibPnZAKuwA/132
+2019/08/22 11:24:45.313 [I] [log.go:629]  http server Running on http://0.0.0.0:8999
+2019/08/22 11:52:18.411 [I] [log.go:629]  http server Running on http://0.0.0.0:8999
+2019/08/22 11:59:31.519 [E] [log.go:604]  AddCollection.Marshal err: Error 1062: Duplicate entry '100-5' for key 'user_id_2'
+2019/08/22 12:00:57.374 [E] [log.go:604]  AddCollection.Marshal err: Error 1062: Duplicate entry '100-5' for key 'user_id_2'
+2019/08/22 12:06:37.413 [I] [log.go:629]  http server Running on http://0.0.0.0:8999
+2019/08/22 12:07:09.205 [E] [log.go:604]  AddCollection.Marshal err: Error 1062: Duplicate entry '100-5' for key 'user_id_2'
+2019/08/22 12:08:16.607 [I] [log.go:629]  http server Running on http://0.0.0.0:8999
+2019/08/22 12:58:23.159 [E] [log.go:604]  AddLiked.Marshal err: Error 1062: Duplicate entry '100-5' for key 'user_id_2'
+2019/08/22 13:01:24.438 [I] [log.go:629]  http server Running on http://0.0.0.0:8999
+2019/08/22 13:21:48.005 [I] [log.go:629]  http server Running on http://0.0.0.0:8999
+2019/08/22 13:25:40.220 [I] [log.go:629]  http server Running on http://0.0.0.0:8999
+2019/08/22 14:10:49.292 [I] [log.go:629]  http server Running on http://0.0.0.0:8999
+2019/08/22 14:19:39.954 [I] [log.go:629]  http server Running on http://0.0.0.0:8999

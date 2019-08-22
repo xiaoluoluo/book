@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"crazy_book/src/models"
+	"crazy_book/src/service"
 	"encoding/json"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
@@ -53,21 +54,22 @@ func (this *MainController) Register() {
 		return
 	}
 	users := new(models.User).Login(req.UserWid)
+	userId := uint64(0)
 	if len(users) > 0 {
-		logs.Error("Register.Login:", req.UserWid, req.UserName, req.UserHeadPic)
-		this.Ctx.WriteString(BuildErrResponse("已经注册过了"))
-		return
-	}
-	insertId, err := new(models.User).Register(req.UserWid, req.UserName, req.UserHeadPic)
-	if err != nil {
-		logs.Error("Register err:", err.Error())
-		this.Ctx.WriteString(BuildErrResponse("数据库出现错误"))
-		return
+		userId = users[0].UserId
+	} else {
+		insertId, err := new(models.User).Register(req.UserWid, req.UserName, req.UserHeadPic)
+		if err != nil {
+			logs.Error("Register err:", err.Error())
+			this.Ctx.WriteString(BuildErrResponse("数据库出现错误"))
+			return
+		}
+		userId = uint64(insertId)
 	}
 	respon := struct {
 		UserId uint64 `json:"user_id"`
 	}{}
-	respon.UserId = uint64(insertId)
+	respon.UserId = uint64(userId)
 	jsonRespon, _ := json.Marshal(respon)
 	this.Ctx.WriteString(BuildSuccessResponse(string(jsonRespon)))
 	return
@@ -213,7 +215,7 @@ func (this *MainController) GetMyAllQuestion() {
 		questions = new(models.Question).GetMyQuestionBySubject(userId, grade, subjectCode, 10, page)
 	}
 	if questions == nil {
-		questions = make([]models.Question,0,1)
+		questions = make([]models.Question, 0, 1)
 	}
 	jsonQuestions, err := json.Marshal(questions)
 	if err != nil {
@@ -275,27 +277,8 @@ func (this *MainController) GetQuestionList() {
 		grade := users[0].UserGrade
 		questions = new(models.Question).GetQuestionByGradeAndSubject(grade, subjectCode, 10, page)
 	}
-
-	userIds := make([]uint64, 0, len(questions))
-	for _, q := range questions {
-		userIds = append(userIds, q.UserId)
-	}
-	userList := new(models.User).GetUserList(userIds)
-	QuestionRespList := make([]QuestionResp, 0, len(userIds))
-	for _, q := range questions {
-		for _, u := range userList {
-			if u.UserId != q.UserId {
-				continue
-			}
-			resp := QuestionResp{
-				Question: q,
-				User:     u,
-			}
-			QuestionRespList = append(QuestionRespList, resp)
-			break
-		}
-	}
-	jsonQuestionRespList, err := json.Marshal(QuestionRespList)
+	questionRespList := service.GetQuestionList(questions)
+	jsonQuestionRespList, err := json.Marshal(questionRespList)
 	if err != nil {
 		logs.Error("GetQuestionList.Marshal err:", err.Error())
 		this.Ctx.WriteString(BuildErrResponse("数据库报错"))
@@ -362,28 +345,8 @@ func (this *MainController) GetQuestionComment() {
 		this.Ctx.WriteString(BuildErrResponse("请求参数错误"))
 		return
 	}
-	commentList := new(models.Comment).GetComment(questionId)
-	userIdList := make([]uint64, 0, len(commentList))
-
-	for _, c := range commentList {
-		userIdList = append(userIdList, c.UserId)
-	}
-	commentUserList := new(models.User).GetUserList(userIdList)
-	CommentRespList := make([]CommentResp, 0, len(userIdList))
-	for _, c := range commentList {
-		for _, u := range commentUserList {
-			if u.UserId != c.UserId {
-				continue
-			}
-			resp := CommentResp{
-				Comment: c,
-				User:    u,
-			}
-			CommentRespList = append(CommentRespList, resp)
-			break
-		}
-	}
-	jsonCommentRespList, err := json.Marshal(CommentRespList)
+	commentRespList := service.GetComment(questionId)
+	jsonCommentRespList, err := json.Marshal(commentRespList)
 	if err != nil {
 		logs.Error("CommentRespList.Marshal err:", err.Error())
 		this.Ctx.WriteString(BuildErrResponse("数据库报错"))

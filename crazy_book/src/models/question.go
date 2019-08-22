@@ -2,6 +2,8 @@ package models
 
 import (
 	"github.com/astaxie/beego/orm"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -120,4 +122,18 @@ func (q *Question) DeletedMyQuestion(questionId uint64) error {
 	o := orm.NewOrm()
 	_, err := o.Raw(sql, questionId).Exec()
 	return err
+}
+
+// 获取题目列表
+func (q *Question) GetQuestionListByIds(questionIds []uint64) []Question {
+	var questions []Question
+	ids := make([]string, 0, len(questionIds))
+	for _, id := range questionIds {
+		ids = append(ids, strconv.Itoa(int(id)))
+	}
+	sql := "SELECT question_id, user_id, user_grade, question_title,answer_pic,subject_code,true_title,true_pic,false_title,false_pic, insert_time, ts FROM question WHERE question_id in ("
+	sql += strings.Join(ids, ",")
+	sql += ")"
+	orm.NewOrm().Raw(sql).QueryRows(&questions)
+	return questions
 }

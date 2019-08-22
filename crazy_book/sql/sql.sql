@@ -35,16 +35,54 @@ create table user(
 
 DROP TABLE IF EXISTS `comment`;
 create table comment(
-    comment_id int(20) NOT NULL AUTO_INCREMENT COMMENT '评论id',
+    comment_id int(20) NOT NULL AUTO_INCREMENT COMMENT '评论递增id',
     user_id int(20) NOT NULL DEFAULT 0 COMMENT '评论用户id',
     question_id int(20) NOT NULL DEFAULT 0 COMMENT '题目id',
     comment_intro varchar(1024) NOT NULL DEFAULT '' COMMENT '评论内容',
     insert_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '插入时间',
     ts timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY(comment_id),
-    INDEX (user_id)
+    INDEX (user_id),
+    INDEX (question_id)
 ) ENGINE=InnoDB  AUTO_INCREMENT=100  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='评论表';
 
 
 
+DROP TABLE IF EXISTS `collection`;
+create table collection(
+    collection_id int(20) NOT NULL AUTO_INCREMENT COMMENT '收藏递增id',
+    user_id int(20) NOT NULL DEFAULT 0 COMMENT '收藏用户id',
+    question_id int(20) NOT NULL DEFAULT 0 COMMENT '题目id',
+    insert_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '插入时间',
+    ts timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY(collection_id),
+    INDEX (user_id),
+    UNIQUE INDEX (user_id,question_id)
+) ENGINE=InnoDB  AUTO_INCREMENT=100  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='收藏表';
+
+
+DROP TABLE IF EXISTS `liked`;
+create table liked(
+    liked_id int(20) NOT NULL AUTO_INCREMENT COMMENT '点赞递增id',
+    user_id int(20) NOT NULL DEFAULT 0 COMMENT '点赞用户id',
+    question_id int(20) NOT NULL DEFAULT 0 COMMENT '题目id',
+    insert_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '插入时间',
+    ts timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY(liked_id),
+    INDEX (user_id),
+    UNIQUE INDEX (user_id,question_id)
+) ENGINE=InnoDB  AUTO_INCREMENT=100  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='点赞表';
+
+
+DROP TABLE IF EXISTS `label`;
+create table label(
+    label_id int(20) NOT NULL AUTO_INCREMENT COMMENT '标签递增id',
+    user_id int(20) NOT NULL DEFAULT 0 COMMENT '标签用户id',
+    subject_code int(10) NOT NULL DEFAULT 0 COMMENT '课程代码',
+    label varchar(255) NOT NULL DEFAULT '' COMMENT '标签',
+    insert_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '插入时间',
+    ts timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY(label_id),
+    INDEX (user_id
+) ENGINE=InnoDB  AUTO_INCREMENT=100  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='标签表';
 

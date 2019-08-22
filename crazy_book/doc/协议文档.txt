@@ -39,4 +39,26 @@ http://127.0.0.1:8999/addQuestionComment
 {"user_id":100,"question_id":5,"comment_intro":"ssssssss"}
 
 12 获取评论 Get
-http://127.0.0.1:8999/getQuestionComment&question_id=111
+http://127.0.0.1:8999/getQuestionComment?question_id=111
+
+13 收藏
+http://127.0.0.1:8999/addCollection
+{"user_id":100,"question_id":5}
+
+14 点赞
+http://127.0.0.1:8999/addLiked
+{"user_id":100,"question_id":5}
+
+15 获取收藏的错题列表
+http://127.0.0.1:8999/getCollectionQuestionList?user_id=111
+
+16 增加知识点标签
+http://127.0.0.1:8999/addLabel
+{"user_id":100,"subject_code":1,"label":"ssss"}
+
+17 删除知识点标签
+http://127.0.0.1:8999/deleteLabel
+{"user_id":100,"label_id":1}
+
+18 获取用户的知识点标签
+http://127.0.0.1:8999/getUserLabel?user_id=111
