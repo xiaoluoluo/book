@@ -3,10 +3,12 @@ package service
 import "crazy_book/src/models"
 
 type QuestionResp struct {
-	Question models.Question
-	User     models.User
-	Comment  []CommentResp
-	LikedNum uint32
+	Question  models.Question
+	User      models.User
+	Comment   []CommentResp
+	LikedNum  uint32
+	MeLiked   bool
+	MeComment bool
 }
 
 type CommentResp struct {

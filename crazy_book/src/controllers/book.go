@@ -277,7 +277,7 @@ func (this *MainController) GetQuestionList() {
 		grade := users[0].UserGrade
 		questions = new(models.Question).GetQuestionByGradeAndSubject(grade, subjectCode, 10, page)
 	}
-	questionRespList := service.GetQuestionList(questions)
+	questionRespList := service.GetQuestionList(userId, questions)
 	jsonQuestionRespList, err := json.Marshal(questionRespList)
 	if err != nil {
 		logs.Error("GetQuestionList.Marshal err:", err.Error())
@@ -342,10 +342,16 @@ func (this *MainController) GetQuestionComment() {
 	questionId, err := this.GetUint64("question_id")
 	if err != nil {
 		logs.Error("GetQuestionComment err:", err.Error())
-		this.Ctx.WriteString(BuildErrResponse("请求参数错误"))
+		this.Ctx.WriteString(BuildErrResponse("参数缺少question_id"))
 		return
 	}
-	commentRespList := service.GetComment(questionId)
+	userId, err := this.GetUint64("user_id")
+	if err != nil {
+		logs.Error("GetQuestionComment err:", err.Error())
+		this.Ctx.WriteString(BuildErrResponse("参数缺少user_id"))
+		return
+	}
+	_, commentRespList := service.GetComment(userId, questionId)
 	jsonCommentRespList, err := json.Marshal(commentRespList)
 	if err != nil {
 		logs.Error("CommentRespList.Marshal err:", err.Error())

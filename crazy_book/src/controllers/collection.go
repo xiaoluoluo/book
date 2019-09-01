@@ -54,7 +54,7 @@ func (this *MainController) GetCollectionQuestionList() {
 		questionIds = append(questionIds, c.QuestionId)
 	}
 	questions := new(models.Question).GetQuestionListByIds(questionIds)
-	questionRespList := service.GetQuestionList(questions)
+	questionRespList := service.GetQuestionList(userId, questions)
 	jsonQuestionRespList, err := json.Marshal(questionRespList)
 	if err != nil {
 		logs.Error("GetQuestionList.Marshal err:", err.Error())
@@ -63,6 +63,32 @@ func (this *MainController) GetCollectionQuestionList() {
 	}
 	this.Ctx.WriteString(BuildSuccessResponse(string(jsonQuestionRespList)))
 	return
+}
+
+//取消收藏
+func (this *MainController) CancelCollection() {
+	req := struct {
+		UserId     uint64 `json:"user_id"`
+		QuestionId uint64 `json:"question_id"`
+	}{}
+	err := json.Unmarshal(this.Ctx.Input.RequestBody, &req)
+	if err != nil {
+		logs.Error("json.Unmarshal is err:", err.Error())
+		this.Ctx.WriteString(BuildErrResponse("请求参数错误"))
+		return
+	}
+	err = new(models.Collection).CancelCollection(req.UserId, req.QuestionId)
+	if err != nil {
+		logs.Error("CancelCollection.Marshal err:", err.Error())
+		this.Ctx.WriteString(BuildErrResponse("数据库报错"))
+		return
+	}
+	respon := struct {
+		Ok bool `json:"ok"`
+	}{}
+	respon.Ok = true
+	jsonRespon, _ := json.Marshal(respon)
+	this.Ctx.WriteString(BuildSuccessResponse(string(jsonRespon)))
 }
 
 //用户给题目点赞
@@ -93,6 +119,32 @@ func (this *MainController) AddLiked() {
 		LikeId uint64 `json:"like_id"`
 	}{}
 	respon.LikeId = uint64(insertId)
+	jsonRespon, _ := json.Marshal(respon)
+	this.Ctx.WriteString(BuildSuccessResponse(string(jsonRespon)))
+}
+
+//取消点赞
+func (this *MainController) CancelLiked() {
+	req := struct {
+		UserId     uint64 `json:"user_id"`
+		QuestionId uint64 `json:"question_id"`
+	}{}
+	err := json.Unmarshal(this.Ctx.Input.RequestBody, &req)
+	if err != nil {
+		logs.Error("json.Unmarshal is err:", err.Error())
+		this.Ctx.WriteString(BuildErrResponse("请求参数错误"))
+		return
+	}
+	err = new(models.Liked).CancelLiked(req.UserId, req.QuestionId)
+	if err != nil {
+		logs.Error("CancelLiked.Marshal err:", err.Error())
+		this.Ctx.WriteString(BuildErrResponse("数据库报错"))
+		return
+	}
+	respon := struct {
+		Ok bool `json:"ok"`
+	}{}
+	respon.Ok = true
 	jsonRespon, _ := json.Marshal(respon)
 	this.Ctx.WriteString(BuildSuccessResponse(string(jsonRespon)))
 }
@@ -170,9 +222,18 @@ func (this *MainController) GetUserLabel() {
 		labelResp.UserId = userLabel[0].UserId
 		labelResp.SubjectCode = userLabel[0].SubjectCode
 		labelResp.Labels = userLabel
-
+	} else {
+		//TODO 如果没有那么就需要根据年级初始化一些知识标签
+		//users := new(models.User).GetUserById(userId)
+		//if len(users)<= 0 {
+		//	logs.Error("GetUserById.find user is empty userId:", userId)
+		//	this.Ctx.WriteString(BuildErrResponse("userId 有错误"))
+		//	return
+		//}
+		//grade:= users[0].UserGrade
+		//println(grade)
 	}
-	jsonUsers, err := json.Marshal(userLabel)
+	jsonUsers, err := json.Marshal(labelResp)
 	if err != nil {
 		logs.Error("GetUserLabel.Marshal err:", err.Error())
 		this.Ctx.WriteString(BuildErrResponse("数据库报错"))

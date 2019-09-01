@@ -41,6 +41,16 @@ func (c *Liked) GetQuestionLiked(userId, questionId uint64) []Liked {
 	return like
 }
 
+// 取消点赞
+func (c *Liked) CancelLiked(userId, questionId uint64) error {
+	qb := new(orm.MySQLQueryBuilder)
+	qb.Delete().From(likedTable).Where("user_id = ?").And("question_id = ?")
+	sql := qb.String()
+	o := orm.NewOrm()
+	_, err := o.Raw(sql, userId, questionId).Exec()
+	return err
+}
+
 // 获取点赞
 func (c *Liked) GetLiked(questionId uint64) []Liked {
 	var like []Liked

@@ -3,7 +3,7 @@ package service
 import "crazy_book/src/models"
 
 /**获取评论**/
-func GetComment(questionId uint64) []CommentResp {
+func GetComment(userId uint64, questionId uint64) (bool, []CommentResp) {
 	commentList := new(models.Comment).GetComment(questionId)
 	userIdList := make([]uint64, 0, len(commentList))
 	for _, c := range commentList {
@@ -11,10 +11,14 @@ func GetComment(questionId uint64) []CommentResp {
 	}
 	commentUserList := new(models.User).GetUserList(userIdList)
 	CommentRespList := make([]CommentResp, 0, len(userIdList))
+	hasMe := false
 	for _, c := range commentList {
 		for _, u := range commentUserList {
 			if u.UserId != c.UserId {
 				continue
+			}
+			if u.UserId == userId {
+				hasMe = true
 			}
 			resp := CommentResp{
 				Comment: c,
@@ -24,16 +28,22 @@ func GetComment(questionId uint64) []CommentResp {
 			break
 		}
 	}
-	return CommentRespList
+	return hasMe, CommentRespList
 }
 
 /**获取问题的点赞数量**/
-func GetQuestionLikeNum(questionId uint64) uint32 {
+func GetQuestionLikeNum(userId uint64, questionId uint64) (bool, uint32) {
 	likes := new(models.Liked).GetLiked(questionId)
-	return uint32(len(likes))
+	hasMe := false
+	for _, like := range likes {
+		if like.UserId == userId {
+			hasMe = true
+		}
+	}
+	return hasMe, uint32(len(likes))
 }
 
-func GetQuestionList(questions []models.Question) []QuestionResp {
+func GetQuestionList(userId uint64, questions []models.Question) []QuestionResp {
 	userIds := make([]uint64, 0, len(questions))
 	for _, q := range questions {
 		userIds = append(userIds, q.UserId)
@@ -45,13 +55,15 @@ func GetQuestionList(questions []models.Question) []QuestionResp {
 			if u.UserId != q.UserId {
 				continue
 			}
-			commentList := GetComment(q.QuestionId)
-			likedNum := GetQuestionLikeNum(q.QuestionId)
+			meComment, commentList := GetComment(userId, q.QuestionId)
+			meLike, likedNum := GetQuestionLikeNum(userId, q.QuestionId)
 			resp := QuestionResp{
-				Question: q,
-				User:     u,
-				Comment:  commentList,
-				LikedNum: likedNum,
+				Question:  q,
+				User:      u,
+				Comment:   commentList,
+				LikedNum:  likedNum,
+				MeComment: meComment,
+				MeLiked:   meLike,
 			}
 			QuestionRespList = append(QuestionRespList, resp)
 			break

@@ -54,7 +54,7 @@ func (c *Label) GetUserLabel(userId uint64) []Label {
 	return label
 }
 
-// 删除我的题目
+// 删除我的标签知识点
 func (q *Label) DeletedUserLabel(userId, labelId uint64) error {
 	qb := new(orm.MySQLQueryBuilder)
 	qb.Delete().From(labelTable).Where("label_id = ?").And("user_id = ?")

@@ -83,6 +83,25 @@ create table label(
     insert_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '插入时间',
     ts timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY(label_id),
-    INDEX (user_id
+    INDEX (user_id)
 ) ENGINE=InnoDB  AUTO_INCREMENT=100  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='标签表';
 
+
+# 知识点初始化表
+DROP TABLE IF EXISTS `initLabel`;
+create table initLabel(
+    grade  int(10) NOT NULL DEFAULT 0 COMMENT '年级',
+    term   int(10) NOT NULL DEFAULT 0 COMMENT '学期：1上学期 2下学期',
+    subject_code int(10) NOT NULL DEFAULT 0 COMMENT '课程代码',
+    label varchar(255) NOT NULL DEFAULT '' COMMENT '标签',
+    insert_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '插入时间',
+    ts timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
+) ENGINE=InnoDB  AUTO_INCREMENT=1  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='初始标签表';
+
+INSERT INTO `initLabel`  (grade, term,subject_code,label)  VALUES
+(1,2,2,'电学'),
+(1,2,2,'力学'),
+(1,2,2,'电磁学'),
+(1,2,2,'空气动力学'),
+(1,2,2,'基因'),
+(1,2,2,'多次函数');

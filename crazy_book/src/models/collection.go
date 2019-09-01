@@ -29,6 +29,16 @@ func (c *Collection) AddCollection(userId uint64, questionId uint64) (insertId i
 	return rawSeter.LastInsertId()
 }
 
+//取消收藏
+func (c *Collection) CancelCollection(userId, questionId uint64) error {
+	qb := new(orm.MySQLQueryBuilder)
+	qb.Delete().From(collectionTable).Where("user_id = ?").And("question_id = ?")
+	sql := qb.String()
+	o := orm.NewOrm()
+	_, err := o.Raw(sql, userId, questionId).Exec()
+	return err
+}
+
 // 获取收藏
 func (c *Collection) GetQuestionCollection(userId uint64, questionId uint64) []Collection {
 	var collection []Collection
