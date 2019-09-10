@@ -217,23 +217,19 @@ func (this *MainController) GetUserLabel() {
 		return
 	}
 	userLabel := new(models.Label).GetUserLabel(userId)
-	labelResp := service.LabelResp{}
-	if len(userLabel) > 0 {
-		labelResp.UserId = userLabel[0].UserId
-		labelResp.SubjectCode = userLabel[0].SubjectCode
-		labelResp.Labels = userLabel
-	} else {
+	if len(userLabel) <= 0 {
 		//TODO 如果没有那么就需要根据年级初始化一些知识标签
-		//users := new(models.User).GetUserById(userId)
-		//if len(users)<= 0 {
-		//	logs.Error("GetUserById.find user is empty userId:", userId)
-		//	this.Ctx.WriteString(BuildErrResponse("userId 有错误"))
-		//	return
-		//}
-		//grade:= users[0].UserGrade
-		//println(grade)
 	}
-	jsonUsers, err := json.Marshal(labelResp)
+	labelRespMap := make(map[uint32][]models.Label, 0)
+	for _, ul := range userLabel {
+		respList,has:= labelRespMap[ul.SubjectCode]
+		if !has {
+			respList = make([]models.Label,0,1)
+		}
+		respList =append(respList,ul)
+		labelRespMap[ul.SubjectCode] = respList
+	}
+	jsonUsers, err := json.Marshal(labelRespMap)
 	if err != nil {
 		logs.Error("GetUserLabel.Marshal err:", err.Error())
 		this.Ctx.WriteString(BuildErrResponse("数据库报错"))
