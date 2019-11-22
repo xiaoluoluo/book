@@ -35,8 +35,8 @@ func main() {
 	beego.Router("/deleteLabel", &controllers.MainController{}, "post:DeleteLabel")
 	beego.Router("/getUserLabel", &controllers.MainController{}, "get:GetUserLabel")
 
-	config.Init()
 	//config
+	config.Init()
 	beego.BConfig.CopyRequestBody = true
 	beego.BConfig.WebConfig.AutoRender = false
 	//log

@@ -12,39 +12,38 @@ type Question struct {
 	UserId        uint64    `json:"user_id"`
 	UserGrade     uint32    `json:"user_grade"`
 	QuestionTitle string    `json:"question_title"`
-	AnswerPic     string    `json:"answer_pic"`
+	AnswerPic     string    `json:"question_pic"`
 	SubjectCode   uint32    `json:"subject_code"`
-	TrueTitle     string    `json:"true_title"`
-	TruePic       string    `json:"true_pic"`
-	FalseTitle    string    `json:"false_title"`
-	FalsePic      string    `json:"false_pic"`
+	TruePic       string    `json:"true_pic1"`
+	FalsePic      string    `json:"true_pic2"`
+	Point         string    `json:"point"`
 	InsertTime    time.Time `json:"insert_time"`
 	Ts            time.Time `json:"ts"`
 }
 
 const questionTable = "question"
 
-var questionField = []string{"question_id", "user_id", "user_grade", "question_title", "answer_pic", "subject_code", "true_title", "true_pic", "false_title", "false_pic", "insert_time", "ts"}
+var questionField = []string{"question_id", "user_id", "user_grade", "question_title", "question_pic", "subject_code", "true_pic1", "true_pic2", "point", "insert_time", "ts"}
 
 // 增加我的错题
-func (q *Question) AddMyQuestion(userId uint64, userGrade uint32, questionTitle string, answerPic string, subjectCode uint32, trueTitle, truePic, falseTitle, falsePic string) (insertId int64, err error) {
+func (q *Question) AddMyQuestion(userId uint64, userGrade uint32, questionTitle string, questionPic string, subjectCode uint32, truePic1, truePic2, point string) (insertId int64, err error) {
 	qb := new(orm.MySQLQueryBuilder)
-	qb.InsertInto(questionTable, "user_id", "user_grade", "question_title", "answer_pic", "subject_code", "true_title", "true_pic", "false_title", "false_pic").
-		Values("?", "?", "?", "?", "?", "?", "?", "?", "?")
+	qb.InsertInto(questionTable, "user_id", "user_grade", "question_title", "question_pic", "subject_code", "true_pic1", "true_pic2", "point").
+		Values("?", "?", "?", "?", "?", "?", "?", "?")
 	sql := qb.String()
 	o := orm.NewOrm()
-	result, err := o.Raw(sql, userId, userGrade, questionTitle, answerPic, subjectCode, trueTitle, truePic, falseTitle, falsePic).Exec()
+	result, err := o.Raw(sql, userId, userGrade, questionTitle, questionPic, subjectCode, truePic1, truePic2, point).Exec()
 	return result.LastInsertId()
 }
 
 //更新题目信息
-func (q *Question) UpdateQuestion(questionId, userId uint64, questionTitle, answerPic string, subjectCode uint32, trueTitle, truePic, falseTitle, falsePic string) error {
+func (q *Question) UpdateQuestion(questionId, userId uint64, questionTitle, questionPic string, subjectCode uint32, truePic1, truePic2, point string) error {
 	qb := new(orm.MySQLQueryBuilder)
 	qb.Update(questionTable).
-		Set("user_id=?", "question_title = ?", "answer_pic = ?", "subject_code = ?", "true_title = ?", "true_pic = ?", "false_title = ?", "false_pic = ?").Where("question_id = ?")
+		Set("user_id=?", "question_title = ?", "question_pic = ?", "subject_code = ?", "true_pic1 = ?", "true_pic2 = ?", "point = ?").Where("question_id = ?")
 	sql := qb.String()
 	o := orm.NewOrm()
-	_, error := o.Raw(sql, userId, questionTitle, answerPic, subjectCode, trueTitle, truePic, falseTitle, falsePic, questionId).Exec()
+	_, error := o.Raw(sql, userId, questionTitle, questionPic, subjectCode, truePic1, truePic2, point, questionId).Exec()
 	return error
 }
 

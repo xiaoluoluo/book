@@ -111,12 +111,11 @@ func (this *MainController) AddMyQuestion() {
 	req := struct {
 		UserId        uint64 `json:"user_id"`
 		QuestionTitle string `json:"question_title"`
-		AnswerPic     string `json:"answer_pic"`
+		QuestionPic   string `json:"question_pic"`
 		SubjectCode   uint32 `json:"subject_code"`
-		TrueTitle     string `json:"true_title"`
-		TruePic       string `json:"true_pic"`
-		FalseTitle    string `json:"false_title"`
-		FalsePic      string `json:"false_pic"`
+		TruePic1      string `json:"true_pic1"`
+		TruePic2      string `json:"true_pic2"`
+		Point         string `json:"point"`
 	}{}
 	err := json.Unmarshal(this.Ctx.Input.RequestBody, &req)
 	if err != nil {
@@ -131,7 +130,7 @@ func (this *MainController) AddMyQuestion() {
 		return
 	}
 	userGrade := users[0].UserGrade
-	insertId, err := new(models.Question).AddMyQuestion(req.UserId, userGrade, req.QuestionTitle, req.AnswerPic, req.SubjectCode, req.TrueTitle, req.TruePic, req.FalseTitle, req.FalsePic)
+	insertId, err := new(models.Question).AddMyQuestion(req.UserId, userGrade, req.QuestionTitle, req.QuestionPic, req.SubjectCode, req.TruePic1, req.TruePic2, req.Point)
 	if err != nil {
 		logs.Error("AddMyQuestion err:", err.Error())
 		this.Ctx.WriteString(BuildErrResponse("数据库出现错误"))
@@ -150,12 +149,11 @@ func (this *MainController) UpdateQuestion() {
 		QuestionId    uint64 `json:"question_id"`
 		UserId        uint64 `json:"user_id"`
 		QuestionTitle string `json:"question_title"`
-		AnswerPic     string `json:"answer_pic"`
+		QuestionPic   string `json:"question_pic"`
 		SubjectCode   uint32 `json:"subject_code"`
-		TrueTitle     string `json:"true_title"`
-		TruePic       string `json:"true_pic"`
-		FalseTitle    string `json:"false_title"`
-		FalsePic      string `json:"false_pic"`
+		TruePic1      string `json:"true_pic1"`
+		TruePic2      string `json:"true_pic2"`
+		Point         string `json:"point"`
 	}{}
 	err := json.Unmarshal(this.Ctx.Input.RequestBody, &req)
 	if err != nil {
@@ -163,7 +161,7 @@ func (this *MainController) UpdateQuestion() {
 		this.Ctx.WriteString(BuildErrResponse("请求参数错误"))
 		return
 	}
-	err = new(models.Question).UpdateQuestion(req.QuestionId, req.UserId, req.QuestionTitle, req.AnswerPic, req.SubjectCode, req.TrueTitle, req.TruePic, req.FalseTitle, req.FalsePic)
+	err = new(models.Question).UpdateQuestion(req.QuestionId, req.UserId, req.QuestionTitle, req.QuestionPic, req.SubjectCode, req.TruePic1, req.TruePic2, req.Point)
 	if err != nil {
 		logs.Error("UpdateQuestion err:", err.Error())
 		this.Ctx.WriteString(BuildErrResponse("数据库报错"))

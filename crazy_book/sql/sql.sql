@@ -1,19 +1,18 @@
 DROP TABLE IF EXISTS `question`;
 create table question(
 	question_id int(20) NOT NULL AUTO_INCREMENT COMMENT '题目id',
-    user_id int(20) NOT NULL DEFAULT 0 COMMENT '用户id',
-    user_grade int(20) NOT NULL DEFAULT 0 COMMENT '用户所在年级',
+	user_id int(20) NOT NULL DEFAULT 0 COMMENT '用户id',
+	user_grade int(20) NOT NULL DEFAULT 0 COMMENT '用户所在年级',
 	question_title varchar(255) NOT NULL DEFAULT '' COMMENT '题目标题',
-	answer_pic varchar(255) NOT NULL DEFAULT '' COMMENT '题目图片',
-    subject_code int(10) NOT NULL DEFAULT 0 COMMENT '科目代码 1数学2语文3英语',
-    true_title varchar(255) NOT NULL DEFAULT '' COMMENT '正解title',
-    true_pic varchar(255) NOT NULL DEFAULT '' COMMENT '正解图片',
-    false_title varchar(255) NOT NULL DEFAULT '' COMMENT '错解title',
-    false_pic varchar(255) NOT NULL DEFAULT '' COMMENT '错解图片',
+    question_pic varchar(255) NOT NULL DEFAULT '' COMMENT '题目图片',
+	subject_code int(10) NOT NULL DEFAULT 0 COMMENT '科目代码 1数学2语文3英语',
+    true_pic1 varchar(255) NOT NULL DEFAULT '' COMMENT '正解图片1',
+    true_pic2 varchar(255) NOT NULL DEFAULT '' COMMENT '正解图片2',
+    point varchar(255) NOT NULL DEFAULT '' COMMENT '知识点',
 	insert_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '插入时间',
 	ts timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
 	PRIMARY KEY(question_id),
-    INDEX (user_id)
+	INDEX (user_id,user_grade)
 ) ENGINE=InnoDB  AUTO_INCREMENT=100  DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='题目表';
 
 
