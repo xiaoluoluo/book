@@ -34,16 +34,11 @@ func (u *User) Register(userWid string, UserName string, UserHeadPic string) (in
 
 func (u *User) Login(userWid string) []User {
 	var users []User
-	qb := new(orm.MySQLQueryBuilder)
-
-	qb.Select(userField...).
+	qb := new(orm.MySQLQueryBuilder).Select(userField...).
 		From(userTable).
 		Where("user_wid = ?")
-	//返回sql语句
 	sql := qb.String()
-	// 执行 SQL 语句
-	o := orm.NewOrm()
-	_, err := o.Raw(sql, userWid).QueryRows(&users)
+	_, err := orm.NewOrm().Raw(sql, userWid).QueryRows(&users)
 	if err != nil {
 		logs.Error("Login is err:%v sql:%s", err, sql)
 	}
@@ -55,8 +50,7 @@ func (u *User) UpdateUserGrade(userId uint64, userGrade uint32) error {
 	qb := new(orm.MySQLQueryBuilder)
 	qb.Update(userTable).Set("user_grade=?").Where("user_id = ?")
 	sql := qb.String()
-	o := orm.NewOrm()
-	_, error := o.Raw(sql, userGrade, userId).Exec()
+	_, error := orm.NewOrm().Raw(sql, userGrade, userId).Exec()
 	return error
 }
 

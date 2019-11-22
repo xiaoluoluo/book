@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 	"strconv"
 	"time"
@@ -32,8 +33,8 @@ func (q *Question) AddMyQuestion(userId uint64, userGrade uint32, questionTitle 
 		Values("?", "?", "?", "?", "?", "?", "?", "?", "?")
 	sql := qb.String()
 	o := orm.NewOrm()
-	rawSeter, err := o.Raw(sql, userId, userGrade, questionTitle, answerPic, subjectCode, trueTitle, truePic, falseTitle, falsePic).Exec()
-	return rawSeter.LastInsertId()
+	result, err := o.Raw(sql, userId, userGrade, questionTitle, answerPic, subjectCode, trueTitle, truePic, falseTitle, falsePic).Exec()
+	return result.LastInsertId()
 }
 
 //更新题目信息
@@ -57,7 +58,11 @@ func (q *Question) GetMyAllQuestion(userId uint64, userGrade uint32, limit int, 
 	qb.Limit(limit).Offset(page)
 	sql := qb.String()
 	o := orm.NewOrm()
-	o.Raw(sql, userId, userGrade).QueryRows(&questions)
+	_, err := o.Raw(sql, userId, userGrade).QueryRows(&questions)
+	if err != nil {
+		logs.Error("GetMyAllQuestion is err:%v sql:%s", err, sql)
+		return questions
+	}
 	return questions
 }
 
@@ -71,7 +76,11 @@ func (q *Question) GetMyQuestionBySubject(userId uint64, userGrade uint32, subje
 	qb.Limit(limit).Offset(page)
 	sql := qb.String()
 	o := orm.NewOrm()
-	o.Raw(sql, userId, userGrade, subjectCode).QueryRows(&questions)
+	_, err := o.Raw(sql, userId, userGrade, subjectCode).QueryRows(&questions)
+	if err != nil {
+		logs.Error("GetMyQuestionBySubject is err:%v sql:%s", err, sql)
+		return questions
+	}
 	return questions
 }
 
@@ -84,7 +93,11 @@ func (q *Question) GetQuestionById(questionId uint64) []Question {
 		Where("question_id = ?")
 	sql := qb.String()
 	o := orm.NewOrm()
-	o.Raw(sql, questionId).QueryRows(&questions)
+	_, err := o.Raw(sql, questionId).QueryRows(&questions)
+	if err != nil {
+		logs.Error("GetQuestionById is err:%v sql:%s", err, sql)
+		return questions
+	}
 	return questions
 }
 
@@ -97,7 +110,11 @@ func (q *Question) GetQuestionList(limit int, page int) []Question {
 	qb.Limit(limit).Offset(page)
 	sql := qb.String()
 	o := orm.NewOrm()
-	o.Raw(sql).QueryRows(&questions)
+	_, err := o.Raw(sql).QueryRows(&questions)
+	if err != nil {
+		logs.Error("GetQuestionList is err:%v sql:%s", err, sql)
+		return questions
+	}
 	return questions
 }
 
@@ -111,7 +128,11 @@ func (q *Question) GetQuestionByGradeAndSubject(userGrade uint32, subjectCode ui
 	qb.Limit(limit).Offset(page)
 	sql := qb.String()
 	o := orm.NewOrm()
-	o.Raw(sql, userGrade, subjectCode).QueryRows(&questions)
+	_, err := o.Raw(sql, userGrade, subjectCode).QueryRows(&questions)
+	if err != nil {
+		logs.Error("GetQuestionByGradeAndSubject is err:%v sql:%s", err, sql)
+		return questions
+	}
 	return questions
 }
 
@@ -135,6 +156,10 @@ func (q *Question) GetQuestionListByIds(questionIds []uint64) []Question {
 	qb := new(orm.MySQLQueryBuilder)
 	qb.Select(questionField...).From(questionTable).Where("question_id").In(ids...)
 	sql := qb.String()
-	orm.NewOrm().Raw(sql).QueryRows(&questions)
+	_, err := orm.NewOrm().Raw(sql).QueryRows(&questions)
+	if err != nil {
+		logs.Error("GetQuestionListByIds is err:%v sql:%s", err, sql)
+		return questions
+	}
 	return questions
 }

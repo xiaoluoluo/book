@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 	"time"
 )
@@ -27,6 +28,7 @@ func (c *Label) AddUserLabel(userId uint64, subjectCode uint32, label string) (i
 	o := orm.NewOrm()
 	rawSeter, err := o.Raw(sql, userId, subjectCode, label).Exec()
 	if err != nil {
+		logs.Error("AddUserLabel is err:%v sql:%s", err, sql)
 		return
 	}
 	return rawSeter.LastInsertId()
@@ -40,7 +42,11 @@ func (c *Label) GetUserSubjectLabel(userId uint64, subjectCode uint32) []Label {
 		From(labelTable).
 		Where("user_id = ?").And("subject_code = ?")
 	sql := qb.String()
-	orm.NewOrm().Raw(sql, userId, subjectCode).QueryRows(&label)
+	_, err := orm.NewOrm().Raw(sql, userId, subjectCode).QueryRows(&label)
+	if err != nil {
+		logs.Error("GetUserSubjectLabel is err:%v sql:%s", err, sql)
+		return label
+	}
 	return label
 }
 
@@ -52,7 +58,11 @@ func (c *Label) GetUserLabel(userId uint64) []Label {
 		From(labelTable).
 		Where("user_id = ?")
 	sql := qb.String()
-	orm.NewOrm().Raw(sql, userId).QueryRows(&label)
+	_, err := orm.NewOrm().Raw(sql, userId).QueryRows(&label)
+	if err != nil {
+		logs.Error("GetUserLabel is err:%v sql:%s", err, sql)
+		return label
+	}
 	return label
 }
 

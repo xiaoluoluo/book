@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 	"time"
 )
@@ -26,6 +27,7 @@ func (c *Collection) AddCollection(userId uint64, questionId uint64) (insertId i
 	o := orm.NewOrm()
 	rawSeter, err := o.Raw(sql, userId, questionId).Exec()
 	if err != nil {
+		logs.Error("AddCollection is err:%v sql:%s", err, sql)
 		return
 	}
 	return rawSeter.LastInsertId()
@@ -49,7 +51,10 @@ func (c *Collection) GetQuestionCollection(userId uint64, questionId uint64) []C
 		From(collectionTable).
 		Where("user_id = ?").And("question_id = ?")
 	sql := qb.String()
-	orm.NewOrm().Raw(sql, userId, questionId).QueryRows(&collection)
+	_, err := orm.NewOrm().Raw(sql, userId, questionId).QueryRows(&collection)
+	if err != nil {
+		logs.Error("GetQuestionCollection is err:%v sql:%s", err, sql)
+	}
 	return collection
 }
 
@@ -61,6 +66,9 @@ func (c *Collection) GetCollection(userId uint64) []Collection {
 		From(collectionTable).
 		Where("user_id = ?")
 	sql := qb.String()
-	orm.NewOrm().Raw(sql, userId).QueryRows(&collection)
+	_, err := orm.NewOrm().Raw(sql, userId).QueryRows(&collection)
+	if err != nil {
+		logs.Error("GetCollection is err:%v sql:%s", err, sql)
+	}
 	return collection
 }

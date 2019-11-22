@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 	"time"
 )
@@ -25,11 +26,12 @@ func (c *Comment) AddComment(userId uint64, questionId uint64, commentIntro stri
 		Values("?", "?", "?")
 	sql := qb.String()
 	o := orm.NewOrm()
-	rawSeter, err := o.Raw(sql, userId, questionId, commentIntro).Exec()
+	result, err := o.Raw(sql, userId, questionId, commentIntro).Exec()
 	if err != nil {
+		logs.Error("AddComment is err:%v sql:%s", err, sql)
 		return
 	}
-	return rawSeter.LastInsertId()
+	return result.LastInsertId()
 }
 
 // 获取评论
@@ -40,7 +42,10 @@ func (c *Comment) GetComment(questionId uint64) []Comment {
 		From(commentTable).
 		Where("question_id = ?")
 	sql := qb.String()
-	orm.NewOrm().Raw(sql, questionId).QueryRows(&comment)
+	_, err := orm.NewOrm().Raw(sql, questionId).QueryRows(&comment)
+	if err != nil {
+		logs.Error("GetComment is err:%v sql:%s", err, sql)
+	}
 	return comment
 
 }

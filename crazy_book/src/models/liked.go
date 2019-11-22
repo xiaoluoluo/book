@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 	"time"
 )
@@ -24,11 +25,12 @@ func (c *Liked) AddLiked(userId uint64, questionId uint64) (insertId int64, err 
 		Values("?", "?")
 	sql := qb.String()
 	o := orm.NewOrm()
-	rawSeter, err := o.Raw(sql, userId, questionId).Exec()
+	result, err := o.Raw(sql, userId, questionId).Exec()
 	if err != nil {
+		logs.Error("AddLiked is err:%v sql:%s", err, sql)
 		return
 	}
-	return rawSeter.LastInsertId()
+	return result.LastInsertId()
 }
 
 // 获取点赞
@@ -39,7 +41,11 @@ func (c *Liked) GetQuestionLiked(userId, questionId uint64) []Liked {
 		From(likedTable).
 		Where("question_id = ?").And("user_id = ?")
 	sql := qb.String()
-	orm.NewOrm().Raw(sql, questionId, userId).QueryRows(&like)
+	_, err := orm.NewOrm().Raw(sql, questionId, userId).QueryRows(&like)
+	if err != nil {
+		logs.Error("GetQuestionLiked is err:%v sql:%s", err, sql)
+		return like
+	}
 	return like
 }
 
@@ -61,6 +67,10 @@ func (c *Liked) GetLiked(questionId uint64) []Liked {
 		From(likedTable).
 		Where("question_id = ?")
 	sql := qb.String()
-	orm.NewOrm().Raw(sql, questionId).QueryRows(&like)
+	_, err := orm.NewOrm().Raw(sql, questionId).QueryRows(&like)
+	if err != nil {
+		logs.Error("GetLiked is err:%v sql:%s", err, sql)
+		return like
+	}
 	return like
 }
