@@ -1,9 +1,11 @@
 package controllers
 
 import (
+	"crazy_book/config"
 	"crazy_book/src/models"
 	"crazy_book/src/service"
 	"encoding/json"
+	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"io/ioutil"
@@ -17,9 +19,7 @@ type MainController struct {
 //获取OpendId
 func (this *MainController) GetWxOpenId() {
 	req := struct {
-		AppId  string `json:"app_id"`
-		Secret string `json:"secret"`
-		Code   string `json:"code"`
+		Code string `json:"code"`
 	}{}
 	err := json.Unmarshal(this.Ctx.Input.RequestBody, &req)
 	if err != nil {
@@ -27,11 +27,10 @@ func (this *MainController) GetWxOpenId() {
 		this.Ctx.WriteString(BuildErrResponse("请求参数错误"))
 		return
 	}
-	url := "https://api.weixin.qq.com/sns/jscode2session?appid=" + req.AppId + "&secret=" + req.Secret +
-		"&js_code=" + req.Code + "&grant_type=authorization_code"
+	url := fmt.Sprintf("https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code", config.AppId, config.Secret, req.Code)
 	resp, err := http.Get(url)
 	if err != nil {
-		logs.Error("GetWxOpenId is err:", err.Error(), req.AppId, req.Secret, req.Code)
+		logs.Error("GetWxOpenId is err:", err.Error(), config.AppId, config.Secret, req.Code)
 		this.Ctx.WriteString(BuildErrResponse("请求参数错误"))
 		return
 	}
@@ -76,7 +75,7 @@ func (this *MainController) Register() {
 
 // 登录
 func (this *MainController) Login() {
-	userWid := this.GetString("wid")
+	userWid := this.GetString("user_wid")
 	users := new(models.User).Login(userWid)
 	if len(users) <= 0 {
 		logs.Error("Login no user wid:%s", userWid)

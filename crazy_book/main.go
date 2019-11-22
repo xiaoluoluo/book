@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crazy_book/config"
 	"crazy_book/src/controllers"
 	"fmt"
 	_ "github.com/Go-SQL-Driver/MYSQL"
@@ -34,17 +35,17 @@ func main() {
 	beego.Router("/deleteLabel", &controllers.MainController{}, "post:DeleteLabel")
 	beego.Router("/getUserLabel", &controllers.MainController{}, "get:GetUserLabel")
 
+	config.Init()
 	//config
 	beego.BConfig.CopyRequestBody = true
 	beego.BConfig.WebConfig.AutoRender = false
+	//log
 	logs.EnableFuncCallDepth(true)
 	logs.SetLevel(logs.LevelDebug)
 	logs.SetLogger(logs.AdapterFile, `{"filename":"./logs/book.log"}`)
 
 	// 数据库
-	//password := "1234567890"
-	password := "123456"
-	dataSource := fmt.Sprintf("%s:%s@/%s?charset=utf8mb4", "root", password, "book")
+	dataSource := fmt.Sprintf("%s:%s@/%s?charset=utf8mb4", config.DataUser, config.Password, config.DataBases)
 	orm.RegisterDriver("mysql", orm.DRMySQL)
 	orm.RegisterDataBase("default", "mysql", dataSource)
 	orm.SetMaxIdleConns("default", 30)

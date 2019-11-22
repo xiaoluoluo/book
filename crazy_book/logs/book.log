@@ -1,10 +1,2 @@
-2019/11/22 11:39:20.835 [I] [log.go:629]  http server Running on http://0.0.0.0:8999
-2019/11/22 11:40:26.425 [E] [log.go:604]  Login no user:
-2019/11/22 11:41:11.617 [E] [log.go:604]  Login no user:
-2019/11/22 11:42:42.444 [I] [log.go:629]  http server Running on http://0.0.0.0:8999
-2019/11/22 11:44:01.126 [E] [log.go:604]  Login no user:
-2019/11/22 11:44:09.870 [I] [log.go:629]  http server Running on http://0.0.0.0:8999
-2019/11/22 11:44:27.691 [E] [log.go:604]  Login no user: luoxiaosong
-2019/11/22 11:49:35.307 [I] [log.go:629]  http server Running on http://0.0.0.0:8999
-2019/11/22 11:56:58.534 [I] [log.go:629]  http server Running on http://0.0.0.0:8999
-2019/11/22 12:51:55.049 [I] [log.go:629]  http server Running on http://0.0.0.0:8999
+
+2019/11/22 15:30:21.581 [I] [log.go:629]  http server Running on http://0.0.0.0:8999

@@ -1,9 +1,9 @@
 1登录 Get
-http://127.0.0.1:8999/login?wid=luoxiaosong
+http://127.0.0.1:8999/login?user_wid=luoxiaosong
 
 2 获取openId POST
 http://127.0.0.1:8999/getWxOpenId
-{"app_id":"ddd","secret":"ffff","code":"dddddd"}
+{"code":"dddddd"}
 
 3 注册 POST
 http://127.0.0.1:8999/register
