@@ -70,8 +70,7 @@ func (this *MainController) Register() {
 		UserId uint64 `json:"user_id"`
 	}{}
 	respon.UserId = uint64(userId)
-	jsonRespon, _ := json.Marshal(respon)
-	this.Ctx.WriteString(BuildSuccessResponse(string(jsonRespon)))
+	this.Ctx.WriteString(BuildSuccessResponse(respon))
 	return
 }
 
@@ -80,17 +79,11 @@ func (this *MainController) Login() {
 	userWid := this.GetString("wid")
 	users := new(models.User).Login(userWid)
 	if len(users) <= 0 {
-		logs.Error("Login no user:")
+		logs.Error("Login no user wid:%s", userWid)
 		this.Ctx.WriteString(BuildErrResponse("数据库没有数据"))
 		return
 	}
-	jsonUsers, err := json.Marshal(users[0])
-	if err != nil {
-		logs.Error("Login.Marshal err:", err.Error())
-		this.Ctx.WriteString(BuildErrResponse("数据库报错"))
-		return
-	}
-	this.Ctx.WriteString(BuildSuccessResponse(string(jsonUsers)))
+	this.Ctx.WriteString(BuildSuccessResponse(users[0]))
 }
 
 // 修改用户的年级
@@ -149,8 +142,7 @@ func (this *MainController) AddMyQuestion() {
 		QuestionId uint64 `json:"question_id"`
 	}{}
 	respon.QuestionId = uint64(insertId)
-	jsonRespon, _ := json.Marshal(respon)
-	this.Ctx.WriteString(BuildSuccessResponse(string(jsonRespon)))
+	this.Ctx.WriteString(BuildSuccessResponse(respon))
 }
 
 // 更新题目信息
@@ -217,13 +209,7 @@ func (this *MainController) GetMyAllQuestion() {
 	if questions == nil {
 		questions = make([]models.Question, 0, 1)
 	}
-	jsonQuestions, err := json.Marshal(questions)
-	if err != nil {
-		logs.Error("GetMyAllQuestion.Marshal err:", err.Error())
-		this.Ctx.WriteString(BuildErrResponse("数据库报错"))
-		return
-	}
-	this.Ctx.WriteString(BuildSuccessResponse(string(jsonQuestions)))
+	this.Ctx.WriteString(BuildSuccessResponse(questions))
 }
 
 // 根据题目id 获取题目信息
@@ -235,13 +221,7 @@ func (this *MainController) GetQuestionById() {
 		return
 	}
 	questions := new(models.Question).GetQuestionById(questionId)
-	jsonQuestions, err := json.Marshal(questions)
-	if err != nil {
-		logs.Error("GetQuestionById.Marshal err:", err.Error())
-		this.Ctx.WriteString(BuildErrResponse("数据库报错"))
-		return
-	}
-	this.Ctx.WriteString(BuildSuccessResponse(string(jsonQuestions)))
+	this.Ctx.WriteString(BuildSuccessResponse(questions))
 }
 
 //广场中的所有错题
@@ -278,13 +258,7 @@ func (this *MainController) GetQuestionList() {
 		questions = new(models.Question).GetQuestionByGradeAndSubject(grade, subjectCode, 10, page)
 	}
 	questionRespList := service.GetQuestionList(userId, questions)
-	jsonQuestionRespList, err := json.Marshal(questionRespList)
-	if err != nil {
-		logs.Error("GetQuestionList.Marshal err:", err.Error())
-		this.Ctx.WriteString(BuildErrResponse("数据库报错"))
-		return
-	}
-	this.Ctx.WriteString(BuildSuccessResponse(string(jsonQuestionRespList)))
+	this.Ctx.WriteString(BuildSuccessResponse(questionRespList))
 }
 
 // 删除我的题目
@@ -332,8 +306,7 @@ func (this *MainController) AddQuestionComment() {
 		CommentId uint64 `json:"comment_id"`
 	}{}
 	respon.CommentId = uint64(insertId)
-	jsonRespon, _ := json.Marshal(respon)
-	this.Ctx.WriteString(BuildSuccessResponse(string(jsonRespon)))
+	this.Ctx.WriteString(BuildSuccessResponse(respon))
 }
 
 // 获取问题的评论
@@ -352,11 +325,5 @@ func (this *MainController) GetQuestionComment() {
 		return
 	}
 	_, commentRespList := service.GetComment(userId, questionId)
-	jsonCommentRespList, err := json.Marshal(commentRespList)
-	if err != nil {
-		logs.Error("CommentRespList.Marshal err:", err.Error())
-		this.Ctx.WriteString(BuildErrResponse("数据库报错"))
-		return
-	}
-	this.Ctx.WriteString(BuildSuccessResponse(string(jsonCommentRespList)))
+	this.Ctx.WriteString(BuildSuccessResponse(commentRespList))
 }

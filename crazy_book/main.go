@@ -38,12 +38,12 @@ func main() {
 	beego.BConfig.CopyRequestBody = true
 	beego.BConfig.WebConfig.AutoRender = false
 	logs.EnableFuncCallDepth(true)
+	logs.SetLevel(logs.LevelDebug)
 	logs.SetLogger(logs.AdapterFile, `{"filename":"./logs/book.log"}`)
 
 	// 数据库
-	password := "Sj147258#^("
 	//password := "1234567890"
-	//password := "123456"
+	password := "123456"
 	dataSource := fmt.Sprintf("%s:%s@/%s?charset=utf8mb4", "root", password, "book")
 	orm.RegisterDriver("mysql", orm.DRMySQL)
 	orm.RegisterDataBase("default", "mysql", dataSource)

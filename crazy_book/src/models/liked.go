@@ -15,6 +15,8 @@ type Liked struct {
 
 const likedTable = "liked"
 
+var likedField = []string{"liked_id", "user_id", "question_id", "insert_time", "ts"}
+
 //增加点赞
 func (c *Liked) AddLiked(userId uint64, questionId uint64) (insertId int64, err error) {
 	qb := new(orm.MySQLQueryBuilder)
@@ -33,7 +35,7 @@ func (c *Liked) AddLiked(userId uint64, questionId uint64) (insertId int64, err 
 func (c *Liked) GetQuestionLiked(userId, questionId uint64) []Liked {
 	var like []Liked
 	qb := new(orm.MySQLQueryBuilder)
-	qb.Select("liked_id", "user_id", "question_id", "insert_time", "ts").
+	qb.Select(likedField...).
 		From(likedTable).
 		Where("question_id = ?").And("user_id = ?")
 	sql := qb.String()
@@ -55,7 +57,7 @@ func (c *Liked) CancelLiked(userId, questionId uint64) error {
 func (c *Liked) GetLiked(questionId uint64) []Liked {
 	var like []Liked
 	qb := new(orm.MySQLQueryBuilder)
-	qb.Select("liked_id", "user_id", "question_id", "insert_time", "ts").
+	qb.Select(likedField...).
 		From(likedTable).
 		Where("question_id = ?")
 	sql := qb.String()

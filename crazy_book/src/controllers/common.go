@@ -1,6 +1,9 @@
 package controllers
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"github.com/astaxie/beego/logs"
+)
 
 type Response struct {
 	Err     string `json:"err"`
@@ -8,7 +11,7 @@ type Response struct {
 	Data    string `json:"data"`
 }
 
-func BuildResponse(err string, errCode uint32, data string) string {
+func buildResponse(err string, errCode uint32, data string) string {
 	resp := &Response{
 		Err:     err,
 		ErrCode: errCode,
@@ -18,8 +21,14 @@ func BuildResponse(err string, errCode uint32, data string) string {
 	return string(r)
 }
 func BuildErrResponse(err string) string {
-	return BuildResponse(err, 1, "")
+	return buildResponse(err, 1, "")
 }
-func BuildSuccessResponse(data string) string {
-	return BuildResponse("", 0, data)
+
+func BuildSuccessResponse(data interface{}) string {
+	jsonData, err := json.Marshal(data)
+	if err != nil {
+		logs.Error("Login.Marshal err:", err.Error())
+		return BuildErrResponse("Marshal err")
+	}
+	return buildResponse("", 0, string(jsonData))
 }

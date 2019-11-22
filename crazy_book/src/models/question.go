@@ -3,7 +3,6 @@ package models
 import (
 	"github.com/astaxie/beego/orm"
 	"strconv"
-	"strings"
 	"time"
 )
 
@@ -23,6 +22,8 @@ type Question struct {
 }
 
 const questionTable = "question"
+
+var questionField = []string{"question_id", "user_id", "user_grade", "question_title", "answer_pic", "subject_code", "true_title", "true_pic", "false_title", "false_pic", "insert_time", "ts"}
 
 // 增加我的错题
 func (q *Question) AddMyQuestion(userId uint64, userGrade uint32, questionTitle string, answerPic string, subjectCode uint32, trueTitle, truePic, falseTitle, falsePic string) (insertId int64, err error) {
@@ -50,7 +51,7 @@ func (q *Question) UpdateQuestion(questionId, userId uint64, questionTitle, answ
 func (q *Question) GetMyAllQuestion(userId uint64, userGrade uint32, limit int, page int) []Question {
 	var questions []Question
 	qb := new(orm.MySQLQueryBuilder)
-	qb.Select("question_id", "user_id", "user_grade", "question_title", "answer_pic", "subject_code", "true_title", "true_pic", "false_title", "false_pic", "insert_time", "ts").
+	qb.Select(questionField...).
 		From(questionTable).
 		Where("user_id = ?").And("user_grade = ?")
 	qb.Limit(limit).Offset(page)
@@ -64,7 +65,7 @@ func (q *Question) GetMyAllQuestion(userId uint64, userGrade uint32, limit int, 
 func (q *Question) GetMyQuestionBySubject(userId uint64, userGrade uint32, subjectCode uint32, limit int, page int) []Question {
 	var questions []Question
 	qb := new(orm.MySQLQueryBuilder)
-	qb.Select("question_id", "user_id", "user_grade", "question_title", "answer_pic", "subject_code", "true_title", "true_pic", "false_title", "false_pic", "insert_time", "ts").
+	qb.Select(questionField...).
 		From(questionTable).
 		Where("user_id = ?").And("user_grade = ?").And("subject_code = ?")
 	qb.Limit(limit).Offset(page)
@@ -78,7 +79,7 @@ func (q *Question) GetMyQuestionBySubject(userId uint64, userGrade uint32, subje
 func (q *Question) GetQuestionById(questionId uint64) []Question {
 	var questions []Question
 	qb := new(orm.MySQLQueryBuilder)
-	qb.Select("question_id", "user_id", "user_grade", "question_title", "answer_pic", "subject_code", "true_title", "true_pic", "false_title", "false_pic", "insert_time", "ts").
+	qb.Select(questionField...).
 		From(questionTable).
 		Where("question_id = ?")
 	sql := qb.String()
@@ -91,7 +92,7 @@ func (q *Question) GetQuestionById(questionId uint64) []Question {
 func (q *Question) GetQuestionList(limit int, page int) []Question {
 	var questions []Question
 	qb := new(orm.MySQLQueryBuilder)
-	qb.Select("question_id", "user_id", "user_grade", "question_title", "answer_pic", "subject_code", "true_title", "true_pic", "false_title", "false_pic", "insert_time", "ts").
+	qb.Select(questionField...).
 		From(questionTable)
 	qb.Limit(limit).Offset(page)
 	sql := qb.String()
@@ -104,7 +105,7 @@ func (q *Question) GetQuestionList(limit int, page int) []Question {
 func (q *Question) GetQuestionByGradeAndSubject(userGrade uint32, subjectCode uint32, limit int, page int) []Question {
 	var questions []Question
 	qb := new(orm.MySQLQueryBuilder)
-	qb.Select("question_id", "user_id", "user_grade", "question_title", "answer_pic", "subject_code", "true_title", "true_pic", "false_title", "false_pic", "insert_time", "ts").
+	qb.Select(questionField...).
 		From(questionTable).
 		Where("user_grade = ?").And("subject_code = ?")
 	qb.Limit(limit).Offset(page)
@@ -131,9 +132,9 @@ func (q *Question) GetQuestionListByIds(questionIds []uint64) []Question {
 	for _, id := range questionIds {
 		ids = append(ids, strconv.Itoa(int(id)))
 	}
-	sql := "SELECT question_id, user_id, user_grade, question_title,answer_pic,subject_code,true_title,true_pic,false_title,false_pic, insert_time, ts FROM question WHERE question_id in ("
-	sql += strings.Join(ids, ",")
-	sql += ")"
+	qb := new(orm.MySQLQueryBuilder)
+	qb.Select(questionField...).From(questionTable).Where("question_id").In(ids...)
+	sql := qb.String()
 	orm.NewOrm().Raw(sql).QueryRows(&questions)
 	return questions
 }

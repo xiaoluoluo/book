@@ -36,8 +36,7 @@ func (this *MainController) AddCollection() {
 		CollectionId uint64 `json:"collection_id"`
 	}{}
 	respon.CollectionId = uint64(insertId)
-	jsonRespon, _ := json.Marshal(respon)
-	this.Ctx.WriteString(BuildSuccessResponse(string(jsonRespon)))
+	this.Ctx.WriteString(BuildSuccessResponse(respon))
 }
 
 // 获取收藏的问题列表
@@ -55,13 +54,7 @@ func (this *MainController) GetCollectionQuestionList() {
 	}
 	questions := new(models.Question).GetQuestionListByIds(questionIds)
 	questionRespList := service.GetQuestionList(userId, questions)
-	jsonQuestionRespList, err := json.Marshal(questionRespList)
-	if err != nil {
-		logs.Error("GetQuestionList.Marshal err:", err.Error())
-		this.Ctx.WriteString(BuildErrResponse("数据库报错"))
-		return
-	}
-	this.Ctx.WriteString(BuildSuccessResponse(string(jsonQuestionRespList)))
+	this.Ctx.WriteString(BuildSuccessResponse(questionRespList))
 	return
 }
 
@@ -87,8 +80,7 @@ func (this *MainController) CancelCollection() {
 		Ok bool `json:"ok"`
 	}{}
 	respon.Ok = true
-	jsonRespon, _ := json.Marshal(respon)
-	this.Ctx.WriteString(BuildSuccessResponse(string(jsonRespon)))
+	this.Ctx.WriteString(BuildSuccessResponse(respon))
 }
 
 //用户给题目点赞
@@ -119,8 +111,7 @@ func (this *MainController) AddLiked() {
 		LikeId uint64 `json:"like_id"`
 	}{}
 	respon.LikeId = uint64(insertId)
-	jsonRespon, _ := json.Marshal(respon)
-	this.Ctx.WriteString(BuildSuccessResponse(string(jsonRespon)))
+	this.Ctx.WriteString(BuildSuccessResponse(respon))
 }
 
 //取消点赞
@@ -145,8 +136,7 @@ func (this *MainController) CancelLiked() {
 		Ok bool `json:"ok"`
 	}{}
 	respon.Ok = true
-	jsonRespon, _ := json.Marshal(respon)
-	this.Ctx.WriteString(BuildSuccessResponse(string(jsonRespon)))
+	this.Ctx.WriteString(BuildSuccessResponse(respon))
 }
 
 //增加知识点
@@ -178,8 +168,7 @@ func (this *MainController) AddLabel() {
 		Label uint64 `json:"label_id"`
 	}{}
 	respon.Label = uint64(insertId)
-	jsonRespon, _ := json.Marshal(respon)
-	this.Ctx.WriteString(BuildSuccessResponse(string(jsonRespon)))
+	this.Ctx.WriteString(BuildSuccessResponse(respon))
 }
 
 //删除知识点
@@ -204,8 +193,7 @@ func (this *MainController) DeleteLabel() {
 		Ok bool `json:"ok"`
 	}{}
 	respon.Ok = true
-	jsonRespon, _ := json.Marshal(respon)
-	this.Ctx.WriteString(BuildSuccessResponse(string(jsonRespon)))
+	this.Ctx.WriteString(BuildSuccessResponse(respon))
 }
 
 //获取用户的所有的知识点标签
@@ -222,18 +210,12 @@ func (this *MainController) GetUserLabel() {
 	}
 	labelRespMap := make(map[uint32][]models.Label, 0)
 	for _, ul := range userLabel {
-		respList,has:= labelRespMap[ul.SubjectCode]
+		respList, has := labelRespMap[ul.SubjectCode]
 		if !has {
-			respList = make([]models.Label,0,1)
+			respList = make([]models.Label, 0, 1)
 		}
-		respList =append(respList,ul)
+		respList = append(respList, ul)
 		labelRespMap[ul.SubjectCode] = respList
 	}
-	jsonUsers, err := json.Marshal(labelRespMap)
-	if err != nil {
-		logs.Error("GetUserLabel.Marshal err:", err.Error())
-		this.Ctx.WriteString(BuildErrResponse("数据库报错"))
-		return
-	}
-	this.Ctx.WriteString(BuildSuccessResponse(string(jsonUsers)))
+	this.Ctx.WriteString(BuildSuccessResponse(labelRespMap))
 }

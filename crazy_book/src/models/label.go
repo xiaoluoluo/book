@@ -16,6 +16,8 @@ type Label struct {
 
 const labelTable = "label"
 
+var labelField = []string{"label_id", "user_id", "subject_code", "label", "insert_time", "ts"}
+
 //增加标签
 func (c *Label) AddUserLabel(userId uint64, subjectCode uint32, label string) (insertId int64, err error) {
 	qb := new(orm.MySQLQueryBuilder)
@@ -34,7 +36,7 @@ func (c *Label) AddUserLabel(userId uint64, subjectCode uint32, label string) (i
 func (c *Label) GetUserSubjectLabel(userId uint64, subjectCode uint32) []Label {
 	var label []Label
 	qb := new(orm.MySQLQueryBuilder)
-	qb.Select("label_id", "user_id", "subject_code", "label", "insert_time", "ts").
+	qb.Select(labelField...).
 		From(labelTable).
 		Where("user_id = ?").And("subject_code = ?")
 	sql := qb.String()
@@ -46,7 +48,7 @@ func (c *Label) GetUserSubjectLabel(userId uint64, subjectCode uint32) []Label {
 func (c *Label) GetUserLabel(userId uint64) []Label {
 	var label []Label
 	qb := new(orm.MySQLQueryBuilder)
-	qb.Select("label_id", "user_id", "subject_code", "label", "insert_time", "ts").
+	qb.Select(labelField...).
 		From(labelTable).
 		Where("user_id = ?")
 	sql := qb.String()

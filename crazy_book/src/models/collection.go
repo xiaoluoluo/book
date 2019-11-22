@@ -15,6 +15,8 @@ type Collection struct {
 
 const collectionTable = "collection"
 
+var collectionField = []string{"collection_id", "user_id", "question_id", "insert_time", "ts"}
+
 //增加收藏
 func (c *Collection) AddCollection(userId uint64, questionId uint64) (insertId int64, err error) {
 	qb := new(orm.MySQLQueryBuilder)
@@ -43,7 +45,7 @@ func (c *Collection) CancelCollection(userId, questionId uint64) error {
 func (c *Collection) GetQuestionCollection(userId uint64, questionId uint64) []Collection {
 	var collection []Collection
 	qb := new(orm.MySQLQueryBuilder)
-	qb.Select("collection_id", "user_id", "question_id", "insert_time", "ts").
+	qb.Select(collectionField...).
 		From(collectionTable).
 		Where("user_id = ?").And("question_id = ?")
 	sql := qb.String()
@@ -55,7 +57,7 @@ func (c *Collection) GetQuestionCollection(userId uint64, questionId uint64) []C
 func (c *Collection) GetCollection(userId uint64) []Collection {
 	var collection []Collection
 	qb := new(orm.MySQLQueryBuilder)
-	qb.Select("collection_id", "user_id", "question_id", "insert_time", "ts").
+	qb.Select(collectionField...).
 		From(collectionTable).
 		Where("user_id = ?")
 	sql := qb.String()

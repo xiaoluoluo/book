@@ -16,6 +16,8 @@ type Comment struct {
 
 const commentTable = "comment"
 
+var commentField = []string{"comment_id", "user_id", "question_id", "comment_intro", "insert_time", "ts"}
+
 //增加评论
 func (c *Comment) AddComment(userId uint64, questionId uint64, commentIntro string) (insertId int64, err error) {
 	qb := new(orm.MySQLQueryBuilder)
@@ -34,7 +36,7 @@ func (c *Comment) AddComment(userId uint64, questionId uint64, commentIntro stri
 func (c *Comment) GetComment(questionId uint64) []Comment {
 	var comment []Comment
 	qb := new(orm.MySQLQueryBuilder)
-	qb.Select("comment_id", "user_id", "question_id", "comment_intro", "insert_time", "ts").
+	qb.Select(commentField...).
 		From(commentTable).
 		Where("question_id = ?")
 	sql := qb.String()

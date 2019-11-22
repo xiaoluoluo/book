@@ -1,9 +1,9 @@
 package models
 
 import (
+	"github.com/astaxie/beego/logs"
 	"github.com/astaxie/beego/orm"
 	"strconv"
-	"strings"
 	"time"
 )
 
@@ -19,31 +19,34 @@ type User struct {
 
 const userTable = "user"
 
+var userField = []string{"user_id", "user_wid", "user_name", "user_head_pic", "user_grade", "insert_time", "ts"}
+
 func (u *User) Register(userWid string, UserName string, UserHeadPic string) (insertId int64, err error) {
 	qb := new(orm.MySQLQueryBuilder)
 
 	qb.InsertInto(userTable, "user_wid", "user_name", "user_head_pic").
 		Values("?", "?", "?")
-	//返回sql语句
 	sql := qb.String()
-	// 执行 SQL 语句
 	o := orm.NewOrm()
-	rawSeter, err := o.Raw(sql, userWid, UserName, UserHeadPic).Exec()
-	return rawSeter.LastInsertId()
+	result, err := o.Raw(sql, userWid, UserName, UserHeadPic).Exec()
+	return result.LastInsertId()
 }
 
 func (u *User) Login(userWid string) []User {
 	var users []User
 	qb := new(orm.MySQLQueryBuilder)
 
-	qb.Select("user_id", "user_wid", "user_name", "user_head_pic", "user_grade", "insert_time", "ts").
+	qb.Select(userField...).
 		From(userTable).
 		Where("user_wid = ?")
 	//返回sql语句
 	sql := qb.String()
 	// 执行 SQL 语句
 	o := orm.NewOrm()
-	o.Raw(sql, userWid).QueryRows(&users)
+	_, err := o.Raw(sql, userWid).QueryRows(&users)
+	if err != nil {
+		logs.Error("Login is err:%v sql:%s", err, sql)
+	}
 	return users
 }
 
@@ -60,14 +63,14 @@ func (u *User) UpdateUserGrade(userId uint64, userGrade uint32) error {
 func (u *User) GetUserById(userId uint64) []User {
 	var users []User
 	qb := new(orm.MySQLQueryBuilder)
-	qb.Select("user_id", "user_wid", "user_name", "user_head_pic", "user_grade", "insert_time", "ts").
+	qb.Select(userField...).
 		From(userTable).
 		Where("user_id = ?")
-	//返回sql语句
 	sql := qb.String()
-	// 执行 SQL 语句
-	o := orm.NewOrm()
-	o.Raw(sql, userId).QueryRows(&users)
+	_, err := orm.NewOrm().Raw(sql, userId).QueryRows(&users)
+	if err != nil {
+		logs.Error("GetUserById is err:%v sql:%s", err, sql)
+	}
 	return users
 }
 
@@ -77,9 +80,11 @@ func (u *User) GetUserList(userIds []uint64) []User {
 	for _, id := range userIds {
 		ids = append(ids, strconv.Itoa(int(id)))
 	}
-	sql := "SELECT user_id, user_wid, user_name, user_head_pic,user_grade, insert_time, ts FROM user WHERE user_id in ("
-	sql += strings.Join(ids, ",")
-	sql += ")"
-	orm.NewOrm().Raw(sql).QueryRows(&users)
+	qb := new(orm.MySQLQueryBuilder)
+	sql := qb.Select(userField...).From(userTable).Where("user_id").In(ids...).String()
+	_, err := orm.NewOrm().Raw(sql).QueryRows(&users)
+	if err != nil {
+		logs.Error("GetUserList is err:%v sql:%s", err, sql)
+	}
 	return users
 }
